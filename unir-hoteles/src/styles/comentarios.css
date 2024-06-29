@@ -1,0 +1,128 @@
+.chat-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.chat-card-content {
+    padding: 15px;
+}
+
+.card {
+    border-radius: 5px;
+}
+
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+.card .card-image .card-title {
+    /*top: 0!important;*/
+    position: relative;
+}
+
+.card .gallery-container {
+    margin: 0;
+    border-radius: 5px;
+}
+
+.card .card-content {
+    height: auto;
+}
+
+.chat-card{
+    margin-top: 10px;
+}
+.chat-card-title {
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.chat-divider {
+    border-bottom: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.chat-message {
+    position: relative;
+    float: left;
+    clear: both;
+    margin: 2px 50px 20px;
+    padding: 0 8px; /* Añade un padding horizontal para dar espacio alrededor del texto */
+    border-radius: 8px;
+    line-height: 22px;
+}
+
+.chat-text {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.chat-text-right{
+    display: inline-block;
+    background-color: #448AFF!important;
+    color: #fff;
+    float: right;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-right {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.coalesce {
+    /*background-color: #f5f5f5;*/
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat-input {
+    border-top: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.chat-input-bar {
+    display: flex;
+    align-items: center;
+}
+
+#chat-textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.chat-input button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.chat-input button[type="button"] i.material-icons {
+    color: #26a69a;
+}

@@ -1,0 +1,56 @@
+.login-modal .modal {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ancho del modal al 100% de la ventana de visualización */
+    height: 100%;
+    max-height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) !important; /* Añade una sombra más suave */
+
+}
+/* modal.css */
+.modal-content {
+    box-shadow: none; /* Anula la sombra por defecto de Materialize */
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.modal .error {
+    width: 100%;
+    color: #ff4444; /* Rojo para errores */
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #333; /* Color del icono de cierre */
+}
+
+/* Estilos para el botón de cierre */
+.close:hover {
+    color: #000; /* Cambia el color al pasar el ratón sobre el botón */
+}

@@ -1,0 +1,43 @@
+* {
+    background-position: center top;
+    /*margin: auto;*/
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    max-width: 1920px;
+    width: 95%;
+}
+
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.card .card-content{
+    height: 80px;
+}
+
+.timer p {
+    font-size: 24px!important;
+    color: #26a69a !important;
+    font-weight: bold!important;
+}
+
+.card-title{
+    font-size: 24px!important;
+    font-weight: bold!important;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 1px #26a69a;
+}
+.card-action a{
+    color: #26a69a!important;
+}

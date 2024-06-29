@@ -1,0 +1,169 @@
+* {
+    background-position: center top;
+    /*margin: auto;*/
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    max-width: 1920px;
+    width: 95%;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    width: 100%;
+}
+
+
+ .card-hotel {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Alinear los elementos en la parte superior */
+}
+
+
+.gallery-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-right: 10px;
+    /*margin-top: 30px;*/
+    margin-top: 3%;
+    flex: 0 0 auto; /* No crecerá ni se encogerá automáticamente */
+}
+
+
+.gallery-container img {
+    display: none;
+    width: 100%;
+    height: auto;
+}
+
+.gallery-container img.active {
+    display: block;
+}
+
+
+.info-container {
+    flex: 1; /* Que ocupe todo el espacio restante */
+    margin-left: 2%;
+}
+
+.card-footer {
+    /*display: flex;*/
+    /*justify-content: flex-end; !* Alinear los botones al final *!*/
+    /*align-items: flex-end; !* Alinear los botones en la esquina inferior derecha *!*/
+    margin-top: auto; /* Empujar el footer hacia la parte inferior */
+    margin-left: auto; /* Empujar el footer hacia la derecha */
+}
+
+.card-footer button {
+    margin-left: 5px;
+}
+
+.gallery-button {
+    position: absolute;
+    bottom: 0%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    color: black;
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.gallery-button.prev {
+    left: 10px;
+}
+
+.gallery-button.next {
+    right: 10px;
+}
+
+.favorite-button.favorite-active {
+    background-color: red; /* Cambia el color de fondo a rojo cuando está marcado como favorito */
+}
+
+#loading-gif {
+    /*display: none;*/
+    position: absolute;
+    z-index: 100;
+    width: 100px;
+    left: 50%;
+    top: 50%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Cambiar la dirección del contenedor principal a columna en pantallas más pequeñas */
+    }
+
+    .sidebar {
+        width: 95%; /* Ancho completo en pantallas más pequeñas */
+        margin: 0 auto; /* Centrar la barra lateral */
+    }
+
+    .content {
+        padding: 10px; /* Reducir el relleno en pantallas más pequeñas */
+    }
+
+    .card {
+        flex-direction: column; /* Cambiar la dirección de la tarjeta a columna en pantallas más pequeñas */
+        height: 100%;
+    }
+
+    .gallery-container {
+        margin-right: 0; /* Eliminar el margen derecho en pantallas más pequeñas */
+        margin-bottom: 10px; /* Agregar un margen inferior en pantallas más pequeñas */
+        position: relative;
+        overflow: hidden;
+        border-radius: 5px;
+        flex: 0 0 auto; /* No crecerá ni se encogerá automáticamente */
+        width: 95%; /* Establecer el ancho del contenedor de la galería al 95% */
+    }
+
+    .gallery-container img {
+        display: none;
+        width: 100%; /* Hacer que la imagen ocupe el 100% del ancho del contenedor */
+        height: auto;
+    }
+
+    .info-container {
+        margin-left: 0; /* Eliminar el margen izquierdo en pantallas más pequeñas */
+    }
+
+    .card-footer {
+        margin-top: 0; /* Eliminar el margen superior en pantallas más pequeñas */
+        margin-left: 0; /* Eliminar el margen izquierdo en pantallas más pequeñas */
+        align-self: flex-end; /* Alinear el footer al final en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 995px) {
+    .nav-links {
+        flex-direction: column; /* Cambiar la dirección de la navegación a columna */
+        align-items: flex-end; /* Alinear los elementos al final */
+    }
+
+    .nav-links li {
+        margin-right: 0; /* Eliminar el margen derecho */
+        margin-bottom: 5px; /* Añadir espacio entre elementos */
+    }
+
+    .brand-logo {
+        order: -1; /* Mover el título a la izquierda */
+    }
+}
