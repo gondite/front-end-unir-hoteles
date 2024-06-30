@@ -4,13 +4,13 @@ import '../styles/sidebar.css';
 export const Sidebar = ({ onSearch }) => {
     const [formData, setFormData] = useState({
         sortBy: 'popularity',
-        starRating: [],
-        userOpinionRating: [],
+        start: [],
+        maxOpinion: [],
         priceRange: 0,
         facilities: [],
         searchInput: '',
-        tripStart: '',
-        tripEnd: ''
+        startDate: '',
+        endDate: ''
     });
 
     // console.log(formData)
@@ -56,9 +56,9 @@ export const Sidebar = ({ onSearch }) => {
                         <label key={rating}>
                             <input
                                 type="radio"
-                                name="starRating"
+                                name="maxStars"
                                 value={rating}
-                                checked={formData.starRating === String(rating)}
+                                checked={formData.maxStars === String(rating)}
                                 onChange={handleChange}
                             />
                             <span>{rating} estrella{rating !== 1 ? 's' : ''}</span>
@@ -69,13 +69,13 @@ export const Sidebar = ({ onSearch }) => {
                 <br/>
                 <hr/>
                 <fieldset>
-                    <legend className="user-opinion-rating">Opinión de usuarios:</legend>
-                    {[5, 6, 7, 8, 9].map((rating) => (
+                    <legend className="user-maxOpinion-rating">Opinión de usuarios:</legend>
+                    {[1, 2, 3, 4, 5].map((rating) => (
                         <label key={rating}>
-                            <input type="checkbox" name="userOpinionRating" value={rating}
-                                   checked={formData.userOpinionRating.includes(String(rating))}
+                            <input type="checkbox" name="maxOpinion" value={rating}
+                                   checked={formData.maxOpinion.includes(String(rating))}
                                    onChange={handleChange}/>
-                            <span>{rating}+ ({rating <= 5 ? 'Bastante bien' : rating <= 6 ? 'Bien' : rating <= 7 ? 'Muy bien' : rating <= 8 ? 'Excelente' : 'Fantástico'})</span>
+                            <span>{rating}+ ({rating <= 1 ? 'Normal' : rating <= 2 ? 'Bien' : rating <= 3 ? 'Muy bien' : rating <= 4 ? 'Excelente' : 'Fantástico'})</span>
                         </label>
                     ))}
                 </fieldset>
@@ -90,7 +90,7 @@ export const Sidebar = ({ onSearch }) => {
                 <hr/>
                 <fieldset>
                     <legend>Instalaciones y servicios:</legend>
-                    {['Internet', 'Piscina', 'Aparcamiento', 'Gimnasio', 'Jacuzzi'].map((facility) => (
+                    {['Internet', 'Pool', 'Parking', 'Gym', 'Jacuzzi','Pets',].map((facility) => (
                         <label key={facility}>
                             <input type="checkbox" name="facilities" value={facility}
                                    checked={formData.facilities.includes(facility)} onChange={handleChange}/>
@@ -103,12 +103,12 @@ export const Sidebar = ({ onSearch }) => {
                 <fieldset>
                     <legend>Fecha de viaje:</legend>
                     <label htmlFor="trip-start">Fechas de viaje:</label>
-                    <input type="date" id="trip-start" name="tripStart" value={formData.tripStart}
+                    <input type="date" id="trip-start" name="startDate" value={formData.startDate}
                            onChange={handleChange}
                            placeholder="Fecha de inicio"/>
 
                     <label htmlFor="trip-end">Fechas de viaje:</label>
-                    <input type="date" id="trip-end" name="tripEnd" value={formData.tripEnd} onChange={handleChange}
+                    <input type="date" id="trip-end" name="endDate" value={formData.endDate} onChange={handleChange}
                            placeholder="Fecha de fin"/>
                 </fieldset>
                 <br/>

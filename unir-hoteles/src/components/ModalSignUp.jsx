@@ -84,7 +84,7 @@ export const ModalSignUp = ({ onClose }) => {
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         validateFullName();
         validateUsername();
@@ -96,11 +96,13 @@ export const ModalSignUp = ({ onClose }) => {
         if (errorMessages.length === 0) {
             console.log('Formulario válido. Agregar usuario al contexto:', { fullName, username, password, email });
             const newUser = { fullName, username, password, email };
-            registerUsuario(newUser);
-            onClose();
-
-                swal("¡Registro exitoso!", `Bienvenido, ${username}.`, "success")
-
+            const result = await registerUsuario(newUser);
+            if (result.success) {
+                onClose();
+                swal("¡Registro exitoso!", `Bienvenido, ${username}.`, "success");
+            } else {
+                alert(`Error: ${result.message}`);
+            }
         } else {
             // Hay errores, se informa al usuario
             alert('Por favor, corrija los errores antes de enviar el formulario.');

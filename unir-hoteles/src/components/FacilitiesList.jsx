@@ -1,21 +1,23 @@
 // FacilitiesList.js
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWifi, faSwimmingPool, faParking, faDumbbell, faHotTub } from '@fortawesome/free-solid-svg-icons';
+import {faWifi, faSwimmingPool, faParking, faDumbbell, faHotTub, faCat} from '@fortawesome/free-solid-svg-icons';
 
 const FacilityIcon = ({ facility }) => {
     const getFacilityIcon = (facility) => {
         switch (facility) {
             case 'Internet':
                 return <FontAwesomeIcon icon={faWifi} />;
-            case 'Piscina':
+            case 'Pool':
                 return <FontAwesomeIcon icon={faSwimmingPool} />;
-            case 'Aparcamiento':
+            case 'Parking':
                 return <FontAwesomeIcon icon={faParking} />;
-            case 'Gimnasio':
+            case 'Gym':
                 return <FontAwesomeIcon icon={faDumbbell} />;
             case 'Jacuzzi':
                 return <FontAwesomeIcon icon={faHotTub} />;
+            case 'Pets':
+                return <FontAwesomeIcon icon={faCat} />;
             default:
                 return null;
         }

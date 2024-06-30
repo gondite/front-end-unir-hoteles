@@ -61,14 +61,14 @@ export const ModalLogin = ({onClose}) => {
                                     <input id="username" type="text" name="username" required
                                            value={formData.username}
                                            onChange={handleChange}/>
-                                    <label htmlFor="fullName">Usuario: (kminchelle)</label>
+                                    <label htmlFor="fullName">Usuario: (lboddamc)</label>
                                 </div>
                                 <br/>
                                 <div className="input-field">
                                     <input id="password" type="password" name="password" required
                                            value={formData.password}
                                            onChange={handleChange}/>
-                                    <label htmlFor="fullName">Contraseña: (0lelplR)</label>
+                                    <label htmlFor="fullName">Contraseña: (1237)</label>
                                 </div>
                                 {error && <p className="error-message">Error: {error}</p>}
                                 <button className="btn waves-effect waves-light" type="submit">Iniciar sesión</button>
