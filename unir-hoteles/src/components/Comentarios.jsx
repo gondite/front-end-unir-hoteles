@@ -53,22 +53,22 @@ export const Comentarios = () => {
                         <div className="card">
                             <div className="card-image ">
                                 <div className="gallery-container">
-                                    <img src={hotel.imageUrls[currentImageIndex]} alt="Hotel Image"
-                                         className="active"/>
+                                    {/*<img src={hotel.imageUrls[currentImageIndex]} alt="Hotel Image"*/}
+                                    {/*     className="active"/>*/}
                                     <button className="gallery-button prev" onClick={handlePrevClick}><i
                                         className="material-icons">arrow_back</i></button>
                                     <button className="gallery-button next" onClick={handleNextClick}><i
                                         className="material-icons">arrow_forward</i></button>
                                 </div>
-                                <span className="card-title">{hotel.title} {hotel.searchQuery['starRating'] && <Rating name="read-only" value={hotel.searchQuery['starRating']} readOnly/>}</span>
+                                <span className="card-title">{hotel.title} {hotel.searchQuery['maxStars'] && <Rating name="read-only" value={hotel.searchQuery['maxStars']} readOnly/>}</span>
                             </div>
                             <hr/>
                             <div className="card-content">
                                 <ul>
                                     <li><p>{hotel.description}</p></li>
                                     <li><p><FacilitiesList facilities={hotel.searchQuery['facilities']}/></p></li>
-                                    <li>{hotel.searchQuery['userOpinionRating'] && hotel.searchQuery['userOpinionRating'].length > 0 &&
-                                        <p>Opiniones de usuarios: {hotel.searchQuery['userOpinionRating'].join(', ')}</p>}</li>
+                                    <li>{hotel.searchQuery['maxOpinion'] && hotel.searchQuery['maxOpinion'].length > 0 &&
+                                        <p>maxOpiniones de usuarios: {hotel.searchQuery['maxOpinion'].join(', ')}</p>}</li>
                                     <li>{hotel.searchQuery && hotel.searchQuery['trip-start'] && hotel.searchQuery['trip-end'] && (
                                         <p>
                                             Fecha de inicio: {hotel.searchQuery['trip-start']}

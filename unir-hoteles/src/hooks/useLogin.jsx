@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { GeoContext } from '../contexts/GeoContext'; // Importar GeoContext
+import { GeoContext } from '../contexts/GeoContext';
 
 const useLogin = () => {
     const [formData, setFormData] = useState({
@@ -8,9 +8,8 @@ const useLogin = () => {
     });
     const [error, setError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const {setUsuario} = useContext(GeoContext);
-    const {newUser} = useContext(GeoContext);
-// console.log(newUser)
+    const {usuario, setUsuario } = useContext(GeoContext);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -22,44 +21,34 @@ const useLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Validar si el usuario existe en el contexto
-            let existingUser=""
-            if(newUser!==null)
-                existingUser = newUser.username === formData.username;
+            const requestBody = {
+                targetMethod: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: {
+                    username: formData.username,
+                    password: formData.password
+                }
+            };
 
-            if (existingUser) {
-                // Validar la contraseña si el usuario existe
-                if (newUser.password === formData.password) {
-                    setError(null);
-                    setIsLoggedIn(true);
-                    setUsuario({ nombre: formData.username });
-                } else {
-                    setError("Contraseña incorrecta");
-                }
-            }
-            else {
-                // Si el usuario no existe en el contexto, realizar la llamada a dummyjson para validar el usuario y contraseña
-                const response = await fetch('https://dummyjson.com/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: formData.username,
-                        password: formData.password,
-                        expiresInMins: 30
-                    })
-                });
+            const response = await fetch('http://localhost:8762/ms-users/users/session', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+            if (response && response.ok) {
                 const data = await response.json();
-                if (data.message) {
-                    setError(data.message);
-                }
-                else {
-                    setError(null);
-                    setIsLoggedIn(true);
-                    setUsuario({ nombre: formData.username }); // Almacenar el nombre de usuario en el contexto
-                }
+                setError(null);
+                setIsLoggedIn(true);
+                setUsuario({ nombre: formData.username ,id : data});
+            } else {
+                setError(error.message || 'Error al iniciar sesión');
+                alert("Error: " + (error.message || 'Error al iniciar sesión')); // Mostrar mensaje de error
             }
         } catch (error) {
             setError(error.message);
+            alert("Error: " + error.message); // Mostrar mensaje de error
         }
     };
 

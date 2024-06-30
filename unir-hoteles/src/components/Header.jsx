@@ -30,7 +30,6 @@ export const Header = () => {
     const handleCloseSignUpModal = () => {
         setIsSignUpModalOpen(false); // Cierra el modal de registro
     };
-
     return (
         <div>
             <nav className="header">
@@ -54,7 +53,7 @@ export const Header = () => {
                     <ul className="hide-on-med-and-down">
                         <li>
                             <a onClick={() => navigate('/search')}><i
-                                className="material-icons left">account_circle</i> {usuario.nombre}</a>
+                                className="material-icons left">account_circle</i> {usuario.nombre} - {usuario.id}</a>
                         </li>
                         <li>
                             <a onClick={() => navigate('/favorites')}>

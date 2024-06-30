@@ -48,11 +48,11 @@ export const HotelFavCard = ({ hotel = {}, isFavorite }) => {
                 <button className="gallery-button next" onClick={handleNextClick}><i className="material-icons">arrow_forward</i></button>
             </div>
             <div className="info-container">
-                <h5>{hotel.title}   {hotel.searchQuery['starRating'] && <Rating name="read-only" value={hotel.searchQuery['starRating']} readOnly/>}</h5>
+                <h5>{hotel.title}   {hotel.searchQuery['maxStars'] && <Rating name="read-only" value={hotel.searchQuery['maxStars']} readOnly/>}</h5>
                 <FacilitiesList facilities={hotel.searchQuery['facilities']}/>
                 <p>{hotel.description}</p>
-                {/*{hotel.searchQuery['starRating'] && hotel.searchQuery['starRating'].join(', ') && <p>Estrellas: {hotel.searchQuery['starRating'].join(', ')}</p>}*/}
-                {hotel.searchQuery['userOpinionRating'] && hotel.searchQuery['userOpinionRating'].join(', ') && <p>Opiniones de usuarios: {hotel.searchQuery['userOpinionRating'].join(', ')}</p>}
+                {/*{hotel.searchQuery['maxStars'] && hotel.searchQuery['maxStars'].join(', ') && <p>Estrellas: {hotel.searchQuery['maxStars'].join(', ')}</p>}*/}
+                {hotel.searchQuery['maxOpinion'] && hotel.searchQuery['maxOpinion'].join(', ') && <p>maxOpiniones de usuarios: {hotel.searchQuery['maxOpinion'].join(', ')}</p>}
                 {hotel.searchQuery['priceRange'] && <p>Precio: {hotel.searchQuery['priceRange']} €</p>}
             </div>
             <div className="card-footer">
