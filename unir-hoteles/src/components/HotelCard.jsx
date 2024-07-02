@@ -71,11 +71,6 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
         navigate(`/hoteles/${hotelId}/comentarios`);
     };
 
-    const facilitiesArray = facilities.split(',').map(facility => {
-        facility = facility.trim();
-        return facility.charAt(0).toUpperCase() + facility.slice(1).toLowerCase().trim();
-    });
-
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
@@ -107,7 +102,7 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
 
             <div className="info-container">
                 <div className="info-container-1">
-                    <FacilitiesList facilities={facilitiesArray} />
+                    <FacilitiesList facilities={facilities} />
                 </div>
                 <p className="hotel-description"><b>{address}</b> <br/>
                     {description}</p>

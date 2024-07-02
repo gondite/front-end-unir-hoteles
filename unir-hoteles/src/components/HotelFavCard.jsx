@@ -67,10 +67,7 @@ export const HotelFavCard = ({index,hotel, images, title, description, stars, ma
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
-    const facilitiesArray = facilities.split(',').map(facility => {
-        facility = facility.trim();
-        return facility.charAt(0).toUpperCase() + facility.slice(1).toLowerCase().trim();
-    });
+
     const markers = [
         {
             latitude: latitude,
@@ -100,7 +97,7 @@ export const HotelFavCard = ({index,hotel, images, title, description, stars, ma
             </div>
             <div className="info-container">
                 <div className="info-container-1">
-                    <FacilitiesList facilities={facilitiesArray}/>
+                    <FacilitiesList facilities={facilities}/>
                 </div>
                 <p className="hotel-description">{description}</p>
                 <div className="info-container-2">

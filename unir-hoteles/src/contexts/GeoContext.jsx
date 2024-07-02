@@ -45,7 +45,7 @@ const GeoProvider = ({children}) => {
                 body: JSON.stringify(requestBody) // Convertir el cuerpo a JSON
             });
             // console.log('response:', response)
-            // Manejar la respuesta
+
             if (response.ok) {
                 const data = await response.json();
                 console.log('Registro exitoso:', data);
