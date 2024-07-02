@@ -1,14 +1,93 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useState, useEffect} from 'react';
 
 const GeoContext = createContext();
 
 const GeoProvider = ({children}) => {
+    const url = "http://localhost:8762/ms-hotels/hotels?"
     const [favoriteCount, setFavoriteCount] = useState(0);
     const [usuario, setUsuario] = useState(null);
     // const [newUser, registerUsuario] = useState(null);
     const [favoriteHotels, setFavoriteHotels] = useState([]);
     const [hotelData, setHotelData] = useState(null);
     const [hotels, setHotels] = useState([]);
+    const [facets, setFacets] = useState({});
+    const [employees, setEmployees] = useState([]);
+    const [selectedFacets, setSelectedFacets] = useState({});
+    const [facetsUrl, setFacetsUrl] = useState(url);
+    const [facetsQueryParams] = useState(new URLSearchParams());
+    const [page, setPage] = useState(0);
+    
+    const buildQueryParams = (query) => {
+        const params = {};
+    
+        for (const key in query) {
+            if (key !== 'sortBy' && query[key] !== "" && query[key] !== null && query[key] !== undefined) {
+                if (Array.isArray(query[key])) {
+                    params[key] = query[key];
+                } else {
+                    // Verifica si es el campo 'maxOpinion' y conviértelo en un array
+                    if (key === 'maxOpinion') {
+                        params[key] = [query[key].toString()]; // Convierte a string si no lo está
+                    } else {
+                        params[key] = [query[key]];
+                    }
+                }
+            }
+        }
+    
+        return params;
+    };
+
+    const useFetch = (query, url) => {
+        const [hotels, setHotels] = useState([]);
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState(null);
+    
+        useEffect(() => {
+            const fetchData = async () => {
+                setLoading(true);
+                try {
+                    // Construye el objeto de parámetros de consulta a partir del objeto query excluyendo 'sortBy'
+                    const queryParams = buildQueryParams(query);
+                    console.log(queryParams)
+                    const requestBody = {
+                        targetMethod: "GET",
+                        queryParams
+                    };
+    
+                    const response = await fetch(`${url}page=${page}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(requestBody), // Ajuste del cuerpo de la solicitud
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch data');
+                    }
+    
+                    const data = await response.json();
+                    console.log("Response Data:", data); // Imprime la respuesta en la consola
+                    setHotels(prevData => [...prevData, ...data.hotels]);
+                    setError(null);
+                } catch (error) {
+                    console.error("Error:", error); // Imprime el error en la consola
+                    setError(error.message);
+                    setHotels([]);
+                } finally {
+                    setLoading(false);
+                }
+            };
+    
+            if (query) {
+                fetchData().then(() => console.log('Data fetched!'));
+            }
+        }, [query, page]);
+    
+        console.log(hotels)
+        return { hotels, loading, error };
+    };
 
     const addHotel = (hotel) => {
         setHotels((prevHotels) => [...prevHotels, hotel]);
@@ -129,6 +208,65 @@ const GeoProvider = ({children}) => {
         }
     }
 
+    const handleFacetChange = (facetKey, facetValue) => {
+
+        //Se actualizan las facetas seleccionadas
+        setSelectedFacets(prevState => {
+            const newState = {...prevState};
+
+            if (newState[facetKey] && newState[facetKey].includes(facetValue)) {
+                newState[facetKey] = newState[facetKey].filter(value => value !== facetValue);
+            } else {
+                newState[facetKey] = newState[facetKey] ? [...newState[facetKey], facetValue] : [facetValue];
+            }
+            return newState;
+        });
+
+        //Si la faceta es de nombre o dirección, se añade directamente a la URL y se reemplaza si ya existía
+        if (facetKey === "name" || facetKey === "address") {
+            facetsQueryParams.set(facetKey, facetValue);
+        }
+
+        //Si actualmente ya se ha seleccionado la faceta, se valora si se quita todo el parametro o una parte, o se incluye
+        else {
+            if (facetsQueryParams.has(facetKey)) {
+                const selectedFacetValues = facetsQueryParams.get(facetKey).split(',');
+                let newSelectedFacetValues = [];
+
+                //Se comprueba si el valor seleccionado ya estaba en la lista de valores seleccionados
+                if (selectedFacetValues.includes(facetValue)) {
+                    if (selectedFacetValues.length === 1) {
+                        facetsQueryParams.delete(facetKey);
+                    } else {
+                        newSelectedFacetValues = selectedFacetValues.filter(value => value !== facetValue);
+                    }
+                } else {
+                    //Se añade el valor seleccionado a la lista de valores seleccionados
+                    selectedFacetValues.push(facetValue);
+                    newSelectedFacetValues = selectedFacetValues;
+                }
+
+                //Si hubiese mas de un valor seleccionado para una faceta, se juntan en un solo string separado por comas
+                if (newSelectedFacetValues.length > 0) {
+                    facetsQueryParams.set(facetKey, newSelectedFacetValues.join(','));
+                }
+            } else {
+
+                //Si no se ha seleccionado la faceta previamente, se añade a la lista de parametros
+                facetsQueryParams.set(facetKey, facetValue);
+            }
+        }
+
+        //Se actualizan variables de estado y se resetea el numero de pagina actual y la lista actual de empleados
+        setFacetsUrl(url + decodeURIComponent(facetsQueryParams.toString()));
+        setPage(0); // Reset page to 0 when facets change
+        setEmployees([]); // Clear current employees when facets change
+    };
+
+    const loadMore = () => {
+        setPage(prevPage => prevPage + 1);
+    };
+
     return (
         <GeoContext.Provider value={{
             favoriteCount,
@@ -146,7 +284,11 @@ const GeoProvider = ({children}) => {
             addHotel,
             getHotelById,
             addFavoriteHotel,
-            getFavHotels
+            getFavHotels,
+            useFetch,
+            url,
+            handleFacetChange,
+            loadMore
         }}>
             {children}
         </GeoContext.Provider>

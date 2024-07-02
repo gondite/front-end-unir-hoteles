@@ -4,10 +4,10 @@ import '../styles/hotel-card.css';
 import { GeoContext } from "../contexts/GeoContext";
 import Map from "./Map";
 
-export const HotelList = ({ hotels, searchQuery }) => {
+export const HotelList = ({ hotels, searchQuery, loadMore }) => {
     const { setHotels } = useContext(GeoContext);
     // Nos quedamos con hotels, sin aggregations
-    const hotelsOnly = hotels.hotels || [];
+    const hotelsOnly = hotels || [];
 
     useEffect(() => {
         // Agregar la searchQuery a cada hotel antes de establecerlos en el contexto
@@ -59,7 +59,7 @@ export const HotelList = ({ hotels, searchQuery }) => {
             )}
             {hotelsOnly.length > 0 && (
                 <div className="load-more-container center">
-                    <button className="btn waves-effect waves-light pulse load-more">Cargar más</button>
+                    <button className="btn waves-effect waves-light pulse load-more" onClick={loadMore}>Cargar más</button>
                 </div>
             )}
         </div>
