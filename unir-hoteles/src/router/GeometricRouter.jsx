@@ -14,6 +14,7 @@ import {NotFound} from "../components/NotFound";
 export const GeometricRouter = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
+
     const handleSearch = (query) => {
         setSearchQuery(query);
     };

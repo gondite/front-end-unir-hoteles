@@ -17,15 +17,24 @@ import {
     faTelevision,
     faAirFreshener,
     faTemperatureHalf,
-    faTemperature2, faThermometer2
+    faTemperature2, faThermometer2, faStreetView
 } from '@fortawesome/free-solid-svg-icons';
 
 const FacilityIcon = ({ facility }) => {
     const getFacilityIcon = (facility) => {
         switch (facility) {
+
             case 'Wifi gratis':
                 return <FontAwesomeIcon icon={faWifi} />;
             case 'Piscina':
+                return <FontAwesomeIcon icon={faSwimmingPool} />;
+            case '2piscinas':
+                return <FontAwesomeIcon icon={faSwimmingPool} />;
+            case 'Piscina privada' || 'Piscina al aire libre' || 'Piscina privada' || 'Piscina de agua salada' || 'Piscina infantil' || 'Bar en la piscina':
+                return <FontAwesomeIcon icon={faSwimmingPool} />;
+            case 'Piscina con vistas'|| 'Vistas a la piscina':
+                return <FontAwesomeIcon icon={faStreetView} />;
+            case 'Bar en la piscina':
                 return <FontAwesomeIcon icon={faSwimmingPool} />;
             case 'Parking':
                 return <FontAwesomeIcon icon={faParking} />;
@@ -33,6 +42,9 @@ const FacilityIcon = ({ facility }) => {
                 return <FontAwesomeIcon icon={faDumbbell} />;
             case 'Jacuzzi':
                 return <FontAwesomeIcon icon={faHotTub} />;
+            case 'Bañera de hidromasaje / jacuzzi':
+                return <FontAwesomeIcon icon={faHotTub} />;
+
             case 'Mascotas permitidas':
                 return <FontAwesomeIcon icon={faCat} />;
             case 'Ventilador':

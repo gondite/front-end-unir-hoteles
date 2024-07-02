@@ -1,16 +1,33 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import FacilitiesList from './FacilitiesList';
 import ModalLogin from './ModalLogin';
 import { GeoContext } from "../contexts/GeoContext";
 import Rating from "@mui/material/Rating";
 import HotelMap from "./HotelMap";
 
-export const HotelFavCard = ({index,hotel, images, title, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude, searchQuery,isFavorite}) => {
+export const HotelFavCard = ({index,hotel, images, title, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude,id, searchQuery}) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount } = useContext(GeoContext);
+    const {usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount,getFavHotels,addFavoriteHotel } = useContext(GeoContext);
+    const [isFavorite, setIsFavorite] = useState(false);
 
-    // console.log(hotel)
+    useEffect(() => {
+        const checkFavoriteStatus = async () => {
+            if (usuario) {
+                try {
+                    const favoriteIds = await getFavHotels();
+                    if (favoriteIds.map(favId => favId.toString()).includes(id.toString())) {
+                        setIsFavorite(true);
+                    }
+                } catch (error) {
+                    console.error('Error checking favorite status:', error);
+                }
+            }
+        };
+
+        checkFavoriteStatus();
+    }, [usuario, id, getFavHotels]);
+
     const handlePrevClick = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
     };
@@ -27,13 +44,23 @@ export const HotelFavCard = ({index,hotel, images, title, description, stars, ma
         }
     };
 
-    const handleFavoriteClick = () => {
-        if (!isFavorite) {
-            setFavoriteHotels([...favoriteHotels, hotel]);
-            setFavoriteCount(prevCount => prevCount + 1);
-        } else {
-            setFavoriteHotels(prevHotels => prevHotels.filter(favHotel => favHotel.title !== title));
-            setFavoriteCount(prevCount => prevCount - 1);
+    const handleFavoriteClick = async () => {
+        try {
+            // Determinar el método a utilizar (PUT o DELETE)
+            const method = isFavorite ? "DELETE" : "PUT";
+            const result = await addFavoriteHotel(id, method);
+            console.log(method)
+            console.log(result)
+            if (result.success) {
+                // Actualizar el estado de favorito y el contador
+                setIsFavorite(!isFavorite);
+                setFavoriteCount(prevCount => isFavorite ? prevCount - 1 : prevCount + 1);
+            } else {
+                alert('Error al gestionar hotel como favorito: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error al gestionar hotel como favorito:', error);
+            alert('Error al gestionar hotel como favorito: ' + error.message);
         }
     };
 
@@ -80,10 +107,10 @@ export const HotelFavCard = ({index,hotel, images, title, description, stars, ma
                     {/*{maxOpinion.join(', ') && <p>maxOpiniones de usuarios: {maxOpinion.join(', ')}</p>}*/}
                     {maxOpinion &&
                         <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
-                    {searchQuery['trip-start'] && searchQuery['trip-end'] && (
-                        <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -
-                            Fecha de fin: {searchQuery['trip-end']}</p>
-                    )}
+                    {/*{searchQuery['trip-start'] && searchQuery['trip-end'] && (*/}
+                    {/*    <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -*/}
+                    {/*        Fecha de fin: {searchQuery['trip-end']}</p>*/}
+                    {/*)}*/}
                     {price !== 0 && <p><i className="material-icons">attach_money</i> Precio: {price} €</p>}
                     {contactMail && (
                         <p>

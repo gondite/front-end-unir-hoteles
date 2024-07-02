@@ -33,6 +33,53 @@ export const Header = () => {
     const handleCloseSignUpModal = () => {
         setIsSignUpModalOpen(false); // Cierra el modal de registro
     };
+
+    const fetchFavoriteHotels = async () => {
+        try {
+            const requestBody = {
+                targetMethod: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            };
+            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            })
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Error fetching favorites');
+            }
+            const favoriteIds = await response.text();
+            const favoriteIdsArray = favoriteIds.split(',').map(id => id.trim());
+
+
+            // const hotelPromises = favoriteIdsArray.map(id =>
+            //
+            //     fetch(`http://localhost:8762/ms-hotels/hotels/${id}`).then(res => res.json())
+            // );
+
+            const hotelPromises = favoriteIdsArray.map(id =>
+                fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                }).then(res => res.json())
+            );
+            const favoriteHotels = await Promise.all(hotelPromises);
+            console.log(favoriteHotels);
+            setFavoriteHotels(favoriteHotels);
+            setFavoriteCount(favoriteHotels.length);
+        } catch (error) {
+            console.error('Error fetching favorite hotels:', error);
+        }
+    };
+
+    const handleFavoritesClick = async () => {
+        await fetchFavoriteHotels();
+        navigate('/favorites');
+    };
     return (
         <div>
             <nav className="header">
@@ -59,7 +106,7 @@ export const Header = () => {
                                 className="material-icons left">account_circle</i> {usuario.nombre} - {usuario.id}</a>
                         </li>
                         <li>
-                            <a onClick={() => navigate('/favorites')}>
+                            <a onClick={handleFavoritesClick}>
                                 <i className="material-icons left">favorite</i>
                                 Favoritos (<span className="favorite-counter">{favoriteCount}</span>)
                             </a>

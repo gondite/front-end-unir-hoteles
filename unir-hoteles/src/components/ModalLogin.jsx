@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import useLogin from '../hooks/useLogin';
 import '../styles/modal.css';
 import swal from 'sweetalert';
 import {useNavigate} from "react-router";
+import {GeoContext} from "../contexts/GeoContext";
 
 export const ModalLogin = ({onClose}) => {
     const {formData, handleChange, handleSubmit, error, isLoggedIn, resetLogin} = useLogin();
+    const { setHotels } = useContext(GeoContext);
     const navigate = useNavigate();
     useEffect(() => {
         let timer;
@@ -40,6 +42,7 @@ export const ModalLogin = ({onClose}) => {
     if (isLoggedIn) {
         swal("¡Inicio de sesión exitoso!", `Bienvenido, ${formData.username}.`, "success")
             .then(() => {
+                setHotels([]);
                 closeModal();
                 navigate('/search');
             });

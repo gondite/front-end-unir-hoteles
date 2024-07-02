@@ -25,6 +25,7 @@ console.log(hotels)
                         key={index}
                         images={hotel.images}
                         title={hotel.name}
+                        address={hotel.address}
                         description={hotel.description}
                         stars={hotel.stars}
                         maxOpinion={hotel.opinion}

@@ -1,5 +1,4 @@
 import React, {createContext, useState} from 'react';
-import swal from 'sweetalert';
 
 const GeoContext = createContext();
 
@@ -45,7 +44,7 @@ const GeoProvider = ({children}) => {
                 },
                 body: JSON.stringify(requestBody) // Convertir el cuerpo a JSON
             });
-            console.log('response:', response)
+            // console.log('response:', response)
             // Manejar la respuesta
             if (response.ok) {
                 const data = await response.json();
@@ -63,15 +62,21 @@ const GeoProvider = ({children}) => {
         }
     };
 
-    const addFavoriteHotel = async (hotelId) => {
+    const addFavoriteHotel = async (hotelId, method) => {
         if (!usuario || !usuario.id) {
-            return {success: false, message: 'Usuario no autenticado'};
+            return { success: false, message: 'Usuario no autenticado' };
         }
 
         try {
+            let url;
+            if (method === "PUT") {
+                url = `http://localhost:8762/ms-users/users/${usuario.id}/favorites`;
+            } else if (method === "DELETE") {
+                url = `http://localhost:8762/ms-users/users/${usuario.id}/favorites/${hotelId}`;
+            }
 
             const requestBody = {
-                targetMethod: "PUT",
+                targetMethod: method,
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -80,25 +85,50 @@ const GeoProvider = ({children}) => {
                 }
             };
 
-            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
-                method: "POST",
+            const response = await fetch(url, {
+                method: "POST", // De acuerdo a la especificación, usar POST para la simulación de PUT o DELETE
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(requestBody)
             });
-            console.log('response:', response)
+
             if (response.ok) {
                 return { success: true };
             } else {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Error al añadir hotel a favoritos');
+                throw new Error(errorData.message || 'Error al gestionar hotel como favorito');
             }
         } catch (error) {
-            console.error('Error al añadir hotel a favoritos:', error);
-            return {success: false, message: error.message};
+            console.error('Error al gestionar hotel como favorito:', error);
+            return { success: false, message: error.message };
         }
     };
+
+    const getFavHotels = async () => {
+        try {
+            const requestBody = {
+                targetMethod: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            };
+            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            })
+            if (!response.ok) {
+                throw new Error('Error fetching favorites');
+            }
+            const favoriteIds = await response.text();
+            return favoriteIds.split(',').map(id => id.trim());
+
+        } catch (error) {
+            console.error('Error fetching favorite hotels:', error);
+        }
+    }
+
     return (
         <GeoContext.Provider value={{
             favoriteCount,
@@ -112,10 +142,11 @@ const GeoProvider = ({children}) => {
             hotelData,
             setHotelData,
             hotels,
-            setHotels, // Añadimos setHotels al contexto
+            setHotels,
             addHotel,
             getHotelById,
-            addFavoriteHotel
+            addFavoriteHotel,
+            getFavHotels
         }}>
             {children}
         </GeoContext.Provider>

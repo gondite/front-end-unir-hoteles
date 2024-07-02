@@ -1,28 +1,36 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FacilitiesList from './FacilitiesList';
 import ModalLogin from './ModalLogin';
-import {useNavigate} from "react-router";
-import {GeoContext} from "../contexts/GeoContext";
+import { useNavigate } from "react-router";
+import { GeoContext } from "../contexts/GeoContext";
 import Rating from '@mui/material/Rating';
 import HotelMap from './HotelMap';
-import swal from "sweetalert";
 
-export const HotelCard = ({index, images, title, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude,id, searchQuery}) => {
-    // console.log(index)
+export const HotelCard = ({ index, images, title, address, description, stars, maxOpinion, price, facilities, contactMail, contactNumber, latitude, longitude, id, searchQuery }) => {
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const {usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount} = useContext(GeoContext);
-
-    // const {maxStars, maxOpinion, priceRange} = searchQuery;
-
-    // const [price] = useState(getRandomPrice());
-
+    const [isFavorite, setIsFavorite] = useState(false);
+    // const [favoriteCount, setFavoriteCount] = useState(0);
+    const { usuario, favoriteHotels, setFavoriteHotels, addFavoriteHotel,getFavHotels,favoriteCount, setFavoriteCount } = useContext(GeoContext);
     const { setHotelData } = useContext(GeoContext);
+    // Check if the current hotel is in the user's favorites
+    useEffect(() => {
+        const checkFavoriteStatus = async () => {
+            if (usuario) {
+                try {
+                    const favoriteIds = await getFavHotels();
+                    if (favoriteIds.map(favId => favId.toString()).includes(id.toString())) {
+                        setIsFavorite(true);
+                    }
+                } catch (error) {
+                    console.error('Error checking favorite status:', error);
+                }
+            }
+        };
 
-
-
+        checkFavoriteStatus();
+    }, [usuario, id, getFavHotels]);
     const handlePrevClick = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
     };
@@ -39,34 +47,27 @@ export const HotelCard = ({index, images, title, description, stars, maxOpinion,
         }
     };
 
-    const handleFavoriteClick = () => {
-        const isAlreadyFavorite = favoriteHotels.some(hotel => hotel.title === title);
-        if (!isAlreadyFavorite) {
-            setFavoriteHotels(prevHotels => [...prevHotels, {images,title,description,stars,maxOpinion,price,facilities,contactMail,contactNumber,latitude,longitude,searchQuery}]);
-            setFavoriteCount(prevCount => prevCount + 1);
-        } else {
-            setFavoriteHotels(prevHotels => prevHotels.filter(hotel => hotel.title !== title));
-            setFavoriteCount(prevCount => prevCount - 1);
+    const handleFavoriteClick = async () => {
+        try {
+            // Determinar el método a utilizar (PUT o DELETE)
+            const method = isFavorite ? "DELETE" : "PUT";
+            const result = await addFavoriteHotel(id, method);
+
+            if (result.success) {
+                // Actualizar el estado de favorito y el contador
+                setIsFavorite(!isFavorite);
+                setFavoriteCount(prevCount => isFavorite ? prevCount - 1 : prevCount + 1);
+            } else {
+                alert('Error al gestionar hotel como favorito: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error al gestionar hotel como favorito:', error);
+            alert('Error al gestionar hotel como favorito: ' + error.message);
         }
     };
-    const { addFavoriteHotel } = useContext(GeoContext);
-    const handleAddFavorite = async () => {
-        const result = await addFavoriteHotel(id);
-        console.log(result)
-        if (result.success) {
-            // swal("Hotel añadido a favoritos", {
-            //     title: "Hotel añadido a favoritos",
-            //     text: "Se ha añadido el hotel a tu lista de favoritos",
-            //     icon: "success",
-            //     timer: 1500
-            // });
-            handleFavoriteClick();
-        } else {
-            alert('Error al añadir hotel a favoritos: ' + result.message);
-        }
-    };
+
     const handleChatClick = (hotelId) => {
-        setHotelData({images, title, description, stars, price, facilities, searchQuery});
+        setHotelData({ images, title, description, stars, price, facilities, searchQuery });
         navigate(`/hoteles/${hotelId}/comentarios`);
     };
 
@@ -79,11 +80,6 @@ export const HotelCard = ({index, images, title, description, stars, maxOpinion,
         setIsModalOpen(false);
     };
 
-    // function getRandomPrice() {
-    //     const minPrice = 0;
-    //     const maxPrice = Number(priceRange);
-    //     return Math.floor(Math.random() * (maxPrice - minPrice + 1));
-    // }
     const markers = [
         {
             latitude: latitude,
@@ -92,36 +88,31 @@ export const HotelCard = ({index, images, title, description, stars, maxOpinion,
             price: price,
             stars: stars,
             maxOpinion: maxOpinion,
-            // facilities: facilitiesArray,
             contactMail: contactMail,
             contactNumber: contactNumber
         }
-
     ];
 
     return (
         <div className="card-hotel z-depth-2">
-            <h5>{title} {stars && <Rating name="read-only" value={stars} readOnly/>}</h5>
+            <h5>{title} {stars && <Rating name="read-only" value={stars} readOnly />}</h5>
             <div className="flex-container ">
                 <div className="gallery-container">
-                    <img src={images[currentImageIndex]} alt="Hotel" className="active"/>
-                    <button className="gallery-button prev" onClick={handlePrevClick}><i
-                        className="material-icons">arrow_back</i></button>
-                    <button className="gallery-button next" onClick={handleNextClick}><i
-                        className="material-icons">arrow_forward</i></button>
+                    <img src={images[currentImageIndex]} alt="Hotel" className="active" />
+                    <button className="gallery-button prev" onClick={handlePrevClick}><i className="material-icons">arrow_back</i></button>
+                    <button className="gallery-button next" onClick={handleNextClick}><i className="material-icons">arrow_forward</i></button>
                 </div>
                 {latitude && longitude && <HotelMap markers={markers} />}
             </div>
 
             <div className="info-container">
                 <div className="info-container-1">
-                    <FacilitiesList facilities={facilitiesArray}/>
+                    <FacilitiesList facilities={facilitiesArray} />
                 </div>
-                <p className="hotel-description">{description}</p>
+                <p className="hotel-description"><b>{address}</b> <br/>
+                    {description}</p>
                 <div className="info-container-2">
-                    {/*{maxOpinion.join(', ') && <p>maxOpiniones de usuarios: {maxOpinion.join(', ')}</p>}*/}
-                    {maxOpinion &&
-                        <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
+                    {maxOpinion && <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
                     {searchQuery['trip-start'] && searchQuery['trip-end'] && (
                         <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -
                             Fecha de fin: {searchQuery['trip-end']}</p>
@@ -130,34 +121,31 @@ export const HotelCard = ({index, images, title, description, stars, maxOpinion,
                     {contactMail && (
                         <p>
                             <i className="material-icons">email</i>
-                            Email: <a href={`mailto:${contactMail}`} >{contactMail}</a>
+                            Email: <a href={`mailto:${contactMail}`}>{contactMail}</a>
                         </p>
                     )}
                     {contactNumber && <p><i className="material-icons">phone</i> Teléfono: {contactNumber}</p>}
                 </div>
-
-
             </div>
 
             <div className="card-footer">
                 <button className="btn waves-effect waves-light" onClick={handleReservarClick}>Reservar</button>
                 {usuario && (
                     <button
-                        className={"btn waves-effect waves-light"}
+                        className="btn waves-effect waves-light"
                         onClick={() => handleChatClick(index)}>
                         <i className="material-icons">chat</i>
                     </button>
                 )}
                 {usuario && (
                     <button
-                        className={`btn waves-effect waves-light favorite-button ${favoriteHotels.some(hotel => hotel.title === title) ? 'favorite-active' : ''}`}
-                        onClick={handleAddFavorite}>
+                        className={`btn waves-effect waves-light favorite-button ${isFavorite ? 'favorite-active' : ''}`}
+                        onClick={handleFavoriteClick}>
                         <i className="material-icons">favorite</i>
                     </button>
                 )}
             </div>
-            {isModalOpen && <ModalLogin onClose={handleCloseModal}/>}
+            {isModalOpen && <ModalLogin onClose={handleCloseModal} />}
         </div>
     );
 };
-

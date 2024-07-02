@@ -8,7 +8,7 @@ const useLogin = () => {
     });
     const [error, setError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const {usuario, setUsuario } = useContext(GeoContext);
+    const {usuario, setUsuario, favoriteCount,setFavoriteCount,setFavoriteHotels} = useContext(GeoContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,14 +37,18 @@ const useLogin = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody)
             });
-            if (response && response.ok) {
+            console.log(response)
+            if (response.ok) {
                 const data = await response.json();
+                console.log('Login exitoso:', data);
                 setError(null);
                 setIsLoggedIn(true);
-                setUsuario({ nombre: formData.username ,id : data});
+                setUsuario({ nombre: formData.username ,id : data.id,favorites: data.favorites, coments: data.coments});
+                setFavoriteCount(data.favorites.split(',').length);
             } else {
-                setError(error.message || 'Error al iniciar sesión');
-                alert("Error: " + (error.message || 'Error al iniciar sesión')); // Mostrar mensaje de error
+                const errorData = await response.json();
+                setError(errorData.message || 'Error al iniciar sesión');
+                alert("Error: " + (errorData.message || 'Error al iniciar sesión')); // Mostrar mensaje de error
             }
         } catch (error) {
             setError(error.message);

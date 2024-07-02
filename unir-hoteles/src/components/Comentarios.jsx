@@ -53,6 +53,7 @@ export const Comentarios = () => {
                         <div className="card">
                             <div className="card-image ">
                                 <div className="gallery-container">
+                                    <img src={hotel.images[currentImageIndex]} alt="Hotel" className="active"/>
                                     {/*<img src={hotel.images[currentImageIndex]} alt="Hotel Image"*/}
                                     {/*     className="active"/>*/}
                                     <button className="gallery-button prev" onClick={handlePrevClick}><i
@@ -60,7 +61,7 @@ export const Comentarios = () => {
                                     <button className="gallery-button next" onClick={handleNextClick}><i
                                         className="material-icons">arrow_forward</i></button>
                                 </div>
-                                <span className="card-title">{hotel.title} {hotel.searchQuery['maxStars'] && <Rating name="read-only" value={hotel.searchQuery['maxStars']} readOnly/>}</span>
+                                <span className="card-title">{hotel.name} {hotel.searchQuery['maxStars'] && <Rating name="read-only" value={hotel.searchQuery['maxStars']} readOnly/>}</span>
                             </div>
                             <hr/>
                             <div className="card-content">
@@ -90,7 +91,7 @@ export const Comentarios = () => {
                     {/*CHAT*/}
                     <div className="chat-card col s12 m9">
                         <div className="chat-card-content">
-                            <span className="chat-card-title">{hotel.title}</span>
+                            <span className="chat-card-title">{hotel.name}</span>
                             <p>Comentarios sobre el hotel:</p>
                         </div>
                         <div className="chat-divider"></div>

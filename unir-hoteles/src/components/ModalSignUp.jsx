@@ -4,7 +4,7 @@ import {GeoContext} from "../contexts/GeoContext";
 import swal from "sweetalert";
 
 export const ModalSignUp = ({ onClose }) => {
-    const { registerUsuario } = useContext(GeoContext);
+    const { registerUsuario,setFavoriteHotels} = useContext(GeoContext);
     const [fullName, setFullName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -91,7 +91,6 @@ export const ModalSignUp = ({ onClose }) => {
         validatePassword();
         validateConfirmPassword();
         validateEmail();
-
         let errorMessages = document.querySelectorAll('form p');
         if (errorMessages.length === 0) {
             console.log('Formulario válido. Agregar usuario al contexto:', { fullName, username, password, email });
