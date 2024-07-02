@@ -4,7 +4,7 @@ import {GeoContext} from "../contexts/GeoContext";
 
 export const HotelFavList = () => {
     const {favoriteHotels, favoriteCount} = useContext(GeoContext);
-
+console.log(favoriteHotels)
     return (
         <div className="container">
             <div className="content" id="hotel-cards">
@@ -14,6 +14,18 @@ export const HotelFavList = () => {
                             <HotelFavCard
                                 key={index}
                                 hotel={hotel}
+                                images={hotel.images}
+                                title={hotel.title}
+                                description={hotel.description}
+                                stars={hotel.stars}
+                                maxOpinion={hotel.opinion}
+                                price={hotel.price}
+                                facilities={hotel.facilities}
+                                contactMail={hotel.contactMail}
+                                contactNumber={hotel.contactNumber}
+                                latitude={hotel.latitude}
+                                longitude={hotel.longitude}
+                                searchQuery={hotel.searchQuery}
                                 isFavorite={true} // Pasa el estado isFavorite como prop
                             />
                         ))}

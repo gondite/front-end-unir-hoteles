@@ -1,31 +1,69 @@
 // FacilitiesList.js
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faWifi, faSwimmingPool, faParking, faDumbbell, faHotTub, faCat} from '@fortawesome/free-solid-svg-icons';
+import {
+    faWifi,
+    faSwimmingPool,
+    faParking,
+    faDumbbell,
+    faHotTub,
+    faCat,
+    faMaskVentilator,
+    faRadio,
+    faBath,
+    faBanSmoking,
+    faSmokingBan,
+    faTv,
+    faTelevision,
+    faAirFreshener,
+    faTemperatureHalf,
+    faTemperature2, faThermometer2
+} from '@fortawesome/free-solid-svg-icons';
 
 const FacilityIcon = ({ facility }) => {
     const getFacilityIcon = (facility) => {
         switch (facility) {
-            case 'Internet':
+            case 'Wifi gratis':
                 return <FontAwesomeIcon icon={faWifi} />;
-            case 'Pool':
+            case 'Piscina':
                 return <FontAwesomeIcon icon={faSwimmingPool} />;
             case 'Parking':
                 return <FontAwesomeIcon icon={faParking} />;
-            case 'Gym':
+            case 'Gimnasio':
                 return <FontAwesomeIcon icon={faDumbbell} />;
             case 'Jacuzzi':
                 return <FontAwesomeIcon icon={faHotTub} />;
-            case 'Pets':
+            case 'Mascotas permitidas':
                 return <FontAwesomeIcon icon={faCat} />;
+            case 'Ventilador':
+                return <FontAwesomeIcon icon={faMaskVentilator} />;
+            case 'Radio':
+                return <FontAwesomeIcon icon={faRadio} />;
+            case 'Wc':
+                return <FontAwesomeIcon icon={faBath} />;
+            case 'Prohibido fumar en todo el alojamiento':
+                return <FontAwesomeIcon icon={faSmokingBan} />;
+            case 'Tv':
+                return <FontAwesomeIcon icon={faTelevision} />;
+            case 'Aire acondicionado':
+                return <FontAwesomeIcon icon={faTemperatureHalf} />;
             default:
+                // Puedes devolver un icono predeterminado o simplemente el nombre de la facilidad
+                // Aquí devuelvo solo el nombre de la facilidad sin ningún icono
                 return null;
         }
     };
 
+    const icon = getFacilityIcon(facility);
+
+    if (!icon) {
+        // no devuelvo nada
+        return null;
+    }
+
     return (
         <div className="facility-icon">
-            {getFacilityIcon(facility)}
+            {icon}
             <span> {facility}</span>
         </div>
     );

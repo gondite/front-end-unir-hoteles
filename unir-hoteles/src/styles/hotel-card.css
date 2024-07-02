@@ -28,49 +28,83 @@ body {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*align-items: flex-start; !* Alinear los elementos en la parte superior *!*/
+}
+.card-hotel h5 {
+    /*text-align: center;*/
+    margin-left: 15px;
+    font-size: 2rem;
+    font-weight: 500;
+    /*color: #333;*/
+}
+.flex-container{
     display: flex;
     flex-direction: row;
-    align-items: flex-start; /* Alinear los elementos en la parte superior */
+    align-items: flex-start;
 }
-
-
 .gallery-container {
     position: relative;
     overflow: hidden;
     border-radius: 5px;
     margin-right: 10px;
     /*margin-top: 30px;*/
-    margin-top: 3%;
+    /*margin-top: 3%;*/
     flex: 0 0 auto; /* No crecerá ni se encogerá automáticamente */
 }
 
-
 .gallery-container img {
     display: none;
-    width: 100%;
-    height: auto;
+    width: 450px;
+    height: 300px;
 }
 
+.hotel-map {
+    width: 100%;
+    height: 300px;
+    border-radius: 5px;
+}
 .gallery-container img.active {
     display: block;
 }
 
 
 .info-container {
-    flex: 1; /* Que ocupe todo el espacio restante */
-    margin-left: 2%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
 }
 
+.facilities-list {
+    margin-top: 20px;
+}
+.facility-icon {
+    margin-top: 5px;
+}
+.hotel-description {
+    width: 50%;
+    text-align: justify;
+}
+/*.info-container-2 {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    align-items: flex-start;*/
+/*}*/
+
 .card-footer {
-    /*display: flex;*/
-    /*justify-content: flex-end; !* Alinear los botones al final *!*/
-    /*align-items: flex-end; !* Alinear los botones en la esquina inferior derecha *!*/
+    display: flex;
+    justify-content: flex-end; /* Alinear los botones al final */
+    align-items: flex-end; /* Alinear los botones en la esquina inferior derecha */
     margin-top: auto; /* Empujar el footer hacia la parte inferior */
     margin-left: auto; /* Empujar el footer hacia la derecha */
 }
 
 .card-footer button {
     margin-left: 5px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    margin-top: 20px!important;
 }
 
 .gallery-button {

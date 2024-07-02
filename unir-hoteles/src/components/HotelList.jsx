@@ -23,7 +23,7 @@ console.log(hotels)
 
                     <HotelCard
                         key={index}
-                        imageUrls={hotel.imageUrls}
+                        images={hotel.images}
                         title={hotel.name}
                         description={hotel.description}
                         stars={hotel.stars}
@@ -32,6 +32,9 @@ console.log(hotels)
                         facilities={hotel.facilities} // Usar facilities del hotel
                         contactMail={hotel.contactMail}
                         contactNumber={hotel.contactNumber}
+                        latitude={hotel.latitude}
+                        longitude={hotel.longitude}
+                        id={hotel.id}
                         searchQuery={searchQuery}
                         // contactMail={hotel.contactMail}
                         // contactNumber={hotel.contactNumber}

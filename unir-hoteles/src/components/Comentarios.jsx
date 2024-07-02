@@ -21,11 +21,11 @@ export const Comentarios = () => {
 
 
     const handlePrevClick = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? hotel.imageUrls.length - 1 : prevIndex - 1));
+        setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? hotel.images.length - 1 : prevIndex - 1));
     };
 
     const handleNextClick = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex === hotel.imageUrls.length - 1 ? 0 : prevIndex + 1));
+        setCurrentImageIndex((prevIndex) => (prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1));
     };
 
     const handleSendClick = () => {
@@ -53,7 +53,7 @@ export const Comentarios = () => {
                         <div className="card">
                             <div className="card-image ">
                                 <div className="gallery-container">
-                                    {/*<img src={hotel.imageUrls[currentImageIndex]} alt="Hotel Image"*/}
+                                    {/*<img src={hotel.images[currentImageIndex]} alt="Hotel Image"*/}
                                     {/*     className="active"/>*/}
                                     <button className="gallery-button prev" onClick={handlePrevClick}><i
                                         className="material-icons">arrow_back</i></button>

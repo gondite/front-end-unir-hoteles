@@ -90,14 +90,21 @@ export const Sidebar = ({ onSearch }) => {
                 <hr/>
                 <fieldset>
                     <legend>Instalaciones y servicios:</legend>
-                    {['Internet', 'Pool', 'Parking', 'Gym', 'Jacuzzi','Pets',].map((facility) => (
-                        <label key={facility}>
-                            <input type="checkbox" name="facilities" value={facility}
-                                   checked={formData.facilities.includes(facility)} onChange={handleChange}/>
+                    {['Wifi gratis', 'Piscina', 'Parking', 'Gimnasio', 'Jacuzzi', 'Mascotas permitidas', 'Ventilador', 'Radio', 'Wc', 'Prohibido fumar en todo el alojamiento', 'Tv', 'Aire acondicionado'].map((facility) => (
+                        <label key={facility} style={{display: 'block', marginBottom: '10px'}}>
+                            <input
+                                type="checkbox"
+                                name="facilities"
+                                value={facility}
+                                checked={formData.facilities.includes(facility)}
+                                onChange={handleChange}
+                                style={{marginRight: '5px'}}
+                            />
                             <span>{facility}</span>
                         </label>
                     ))}
                 </fieldset>
+
                 <br/>
                 <hr/>
                 <fieldset>
@@ -113,10 +120,10 @@ export const Sidebar = ({ onSearch }) => {
                 </fieldset>
                 <br/>
                 <label>
-                <input type="text" id="search-input" name="searchInput" value={formData.searchInput}
-                               onChange={handleChange} placeholder="Buscar hoteles..."/>
-                    </label>
-                    <button type="submit" className="btn waves-effect waves-light search-btn">Buscar</button>
+                    <input type="text" id="search-input" name="searchInput" value={formData.searchInput}
+                           onChange={handleChange} placeholder="Buscar hoteles..."/>
+                </label>
+                <button type="submit" className="btn waves-effect waves-light search-btn">Buscar</button>
             </form>
         </div>
     );
