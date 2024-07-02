@@ -33,6 +33,10 @@
     height: auto;
 }
 
+.card-content p{
+    text-align: justify;
+}
+
 .chat-card{
     margin-top: 10px;
 }

@@ -5,7 +5,7 @@ import { GeoContext } from "../contexts/GeoContext";
 import Rating from "@mui/material/Rating";
 import HotelMap from "./HotelMap";
 
-export const HotelFavCard = ({index,hotel, images, title, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude,id, searchQuery}) => {
+export const HotelFavCard = ({index,hotel, images, title, address, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude,id, searchQuery}) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount,getFavHotels,addFavoriteHotel } = useContext(GeoContext);
@@ -99,7 +99,8 @@ export const HotelFavCard = ({index,hotel, images, title, description, stars, ma
                 <div className="info-container-1">
                     <FacilitiesList facilities={facilities}/>
                 </div>
-                <p className="hotel-description">{description}</p>
+                <p className="hotel-description"><b>{address}</b> <br/>
+                    {description}</p>
                 <div className="info-container-2">
                     {/*{maxOpinion.join(', ') && <p>maxOpiniones de usuarios: {maxOpinion.join(', ')}</p>}*/}
                     {maxOpinion &&

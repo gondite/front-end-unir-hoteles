@@ -43,7 +43,7 @@ export const Comentarios = () => {
             handleSendClick();
         }
     };
-
+console.log(hotel)
     return (
         <div className="container">
             {hotel && (
@@ -61,7 +61,7 @@ export const Comentarios = () => {
                                     <button className="gallery-button next" onClick={handleNextClick}><i
                                         className="material-icons">arrow_forward</i></button>
                                 </div>
-                                <span className="card-title">{hotel.name} {hotel.searchQuery['maxStars'] && <Rating name="read-only" value={hotel.searchQuery['maxStars']} readOnly/>}</span>
+                                <span className="card-title">{hotel.name} {hotel.stars && <Rating name="read-only" value={hotel.stars} readOnly />}</span>
                             </div>
                             <hr/>
                             <div className="card-content">

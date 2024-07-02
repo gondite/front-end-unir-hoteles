@@ -70,6 +70,7 @@ export const HotelFavList = () => {
                                 hotel={hotel}
                                 images={hotel.images}
                                 title={hotel.name}
+                                address={hotel.address}
                                 description={hotel.description}
                                 stars={hotel.stars}
                                 maxOpinion={hotel.opinion}
