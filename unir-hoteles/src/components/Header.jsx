@@ -6,7 +6,7 @@ import {ModalSignUp} from "./ModalSignUp";
 import LogoImg from "../img/logo.webp";
 
 export const Header = () => {
-    const {usuario, setUsuario, favoriteCount} = useContext(GeoContext);
+    const {usuario, setUsuario, favoriteCount,setFavoriteCount,setFavoriteHotels} = useContext(GeoContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false); // Estado para controlar la apertura del modal de registro
     const navigate = useNavigate();
@@ -20,7 +20,10 @@ export const Header = () => {
     };
 
     const handleCerrarSesionClick = () => {
+        navigate('/');
         setUsuario(null);
+        setFavoriteCount(0);
+        setFavoriteHotels([]);
     };
 
     const handleRegistrarClick = () => {

@@ -54,12 +54,12 @@ export const HotelCard = ({index, images, title, description, stars, maxOpinion,
         const result = await addFavoriteHotel(id);
         console.log(result)
         if (result.success) {
-            swal("Hotel añadido a favoritos", {
-                title: "Hotel añadido a favoritos",
-                text: "Se ha añadido el hotel a tu lista de favoritos",
-                icon: "success",
-                timer: 1500
-            });
+            // swal("Hotel añadido a favoritos", {
+            //     title: "Hotel añadido a favoritos",
+            //     text: "Se ha añadido el hotel a tu lista de favoritos",
+            //     icon: "success",
+            //     timer: 1500
+            // });
             handleFavoriteClick();
         } else {
             alert('Error al añadir hotel a favoritos: ' + result.message);
