@@ -9,28 +9,6 @@ export const HotelList = ({ hotels, searchQuery, loadMore }) => {
     // Nos quedamos con hotels, sin aggregations
     const hotelsOnly = hotels || [];
 
-    useEffect(() => {
-        // Agregar la searchQuery a cada hotel antes de establecerlos en el contexto
-        const hotelsWithSearchQuery = hotelsOnly.map((hotel) => ({
-            ...hotel,
-            searchQuery: searchQuery
-        }));
-
-        // Verificar si los datos a establecer son diferentes antes de actualizar
-        if (!arraysAreEqual(hotelsWithSearchQuery, hotels)) {
-            setHotels(hotelsWithSearchQuery);
-        }
-    }, [hotelsOnly, searchQuery, setHotels]);
-
-    // Función para comparar dos arrays de hoteles para evitar bucle infinito
-    const arraysAreEqual = (arr1, arr2) => {
-        if (arr1.length !== arr2.length) return false;
-        for (let i = 0; i < arr1.length; i++) {
-            if (arr1[i].id !== arr2[i].id) return false;
-        }
-        return true;
-    };
-
     return (
         <div className="content search-hotels-container" id="hotel-cards">
             {hotelsOnly.length > 0 ? (

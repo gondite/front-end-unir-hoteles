@@ -11,11 +11,12 @@ const GeoProvider = ({children}) => {
     const [hotelData, setHotelData] = useState(null);
     const [hotels, setHotels] = useState([]);
     const [facets, setFacets] = useState({});
-    const [employees, setEmployees] = useState([]);
     const [selectedFacets, setSelectedFacets] = useState({});
     const [facetsUrl, setFacetsUrl] = useState(url);
     const [facetsQueryParams] = useState(new URLSearchParams());
     const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     
     const buildQueryParams = (query) => {
         const params = {};
@@ -38,24 +39,21 @@ const GeoProvider = ({children}) => {
         return params;
     };
 
-    const useFetch = (query, url) => {
-        const [hotels, setHotels] = useState([]);
-        const [loading, setLoading] = useState(false);
-        const [error, setError] = useState(null);
+    const useFetch = async () => {
+
     
         useEffect(() => {
             const fetchData = async () => {
                 setLoading(true);
                 try {
                     // Construye el objeto de parámetros de consulta a partir del objeto query excluyendo 'sortBy'
-                    const queryParams = buildQueryParams(query);
-                    console.log(queryParams)
+                    //const queryParams = buildQueryParams(query);
+                    //console.log(queryParams)
                     const requestBody = {
-                        targetMethod: "GET",
-                        queryParams
+                        targetMethod: "GET"
                     };
     
-                    const response = await fetch(`${url}page=${page}`, {
+                    const response = await fetch(`${facetsUrl}&page=${page}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -69,6 +67,7 @@ const GeoProvider = ({children}) => {
     
                     const data = await response.json();
                     console.log("Response Data:", data); // Imprime la respuesta en la consola
+                    setFacets(data.aggregations)
                     setHotels(prevData => [...prevData, ...data.hotels]);
                     setError(null);
                 } catch (error) {
@@ -80,10 +79,10 @@ const GeoProvider = ({children}) => {
                 }
             };
     
-            if (query) {
-                fetchData().then(() => console.log('Data fetched!'));
-            }
-        }, [query, page]);
+            
+            fetchData().then(() => console.log('Data fetched!'));
+            
+        }, [facetsUrl, page]);
     
         console.log(hotels)
         return { hotels, loading, error };
@@ -260,7 +259,7 @@ const GeoProvider = ({children}) => {
         //Se actualizan variables de estado y se resetea el numero de pagina actual y la lista actual de empleados
         setFacetsUrl(url + decodeURIComponent(facetsQueryParams.toString()));
         setPage(0); // Reset page to 0 when facets change
-        setEmployees([]); // Clear current employees when facets change
+        setHotels([]); // Clear current employees when facets change
     };
 
     const loadMore = () => {
@@ -286,9 +285,13 @@ const GeoProvider = ({children}) => {
             addFavoriteHotel,
             getFavHotels,
             useFetch,
-            url,
+            facetsUrl,
+            facets,
             handleFacetChange,
-            loadMore
+            selectedFacets,
+            loadMore,
+            loading,
+            error
         }}>
             {children}
         </GeoContext.Provider>

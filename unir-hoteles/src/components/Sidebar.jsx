@@ -1,8 +1,9 @@
 import React, {useState } from 'react';
 import '../styles/sidebar.css';
+import {translations} from "../utils/Translations";
 
-export const Sidebar = ({ onSearch }) => {
-    const [formData, setFormData] = useState({
+export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets }) => {
+    /*const [formData, setFormData] = useState({
         sortBy: 'popularity',
         start: [],
         maxOpinion: [],
@@ -34,10 +35,10 @@ export const Sidebar = ({ onSearch }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         onSearch(formData);
-    };
+    };*/
 
     return (
-        <div className="sidebar">
+        /*<div className="sidebar">
             <h2>Menú</h2>
             <form id="search-form" onSubmit={handleSubmit}>
                 <label htmlFor="sort-by">Ordenar por:
@@ -125,6 +126,55 @@ export const Sidebar = ({ onSearch }) => {
                 </label>
                 <button type="submit" className="btn waves-effect waves-light search-btn">Buscar</button>
             </form>
+        </div>*/
+        <div className="sidebar">
+            <h1>Filtros estáticos</h1>
+            <div key={"name"} className="facet-category">
+                <h3>Nombre de pila (Completo)</h3>
+                <div className="facet-options">
+                    <input
+                        type="text"
+                        className="facet-option__text"
+                        placeholder="Buscar por nombre..."
+                        onInput={(e) => handleFacetChange("name", e.target.value)}
+                    />
+                </div>
+            </div>
+            <div key={"address"} className="facet-category">
+                <h3>Dirección (Parcial)</h3>
+                <div className="facet-options">
+                    <input
+                        type="text"
+                        className="facet-option__text"
+                        placeholder="Buscar por dirección..."
+                        onInput={(e) => handleFacetChange("address", e.target.value)}
+                    />
+                </div>
+            </div>
+
+            {
+                Object.keys(facets).length > 0 && <h1>Filtros dinámicos</h1>
+            }
+
+            {Object.keys(facets).map((facetKey) => (
+                <div key={facetKey} className="facet-category">
+                    <h3>{translations.get(facetKey)}</h3>
+                    <div className="facet-options">
+                        {facets[facetKey].map((facetValue) => (
+
+                            //Aseguramos mediante renderizado condicional que solo se muestren las opciones con un número de empleados mayor que 0
+                            facetValue.count > 0 &&
+                            <div
+                                key={facetValue.key}
+                                className={`facet-option ${selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key) ? 'selected' : ''}`}
+                                onClick={() => handleFacetChange(facetKey, facetValue.key)}
+                            >
+                                {translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };

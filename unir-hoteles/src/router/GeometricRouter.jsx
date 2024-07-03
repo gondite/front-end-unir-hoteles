@@ -14,13 +14,13 @@ import { GeoContext } from "../contexts/GeoContext";
 
 export const GeometricRouter = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const { useFetch, url, loadMore } = useContext(GeoContext);
+    const { useFetch, loadMore, facets, handleFacetChange, selectedFacets, hotels, loading, error } = useContext(GeoContext);
 
     const handleSearch = (query) => {
         setSearchQuery(query);
     };
 
-    const {hotels, loading, error} = useFetch(searchQuery, url);
+    useFetch();
     return (
         <BrowserRouter>
             <Header/>
@@ -30,7 +30,7 @@ export const GeometricRouter = () => {
                     path="/search"
                     element={
                         <div className="container">
-                            <Sidebar onSearch={handleSearch}/>
+                            <Sidebar onSearch={handleSearch} facets={facets} handleFacetChange={handleFacetChange} selectedFacets={selectedFacets}/>
                             {loading ? <Loader/> : <HotelList hotels={hotels} searchQuery={searchQuery} loadMore={loadMore}/>}
                             {error && <p>Error: {error}</p>}
                         </div>
