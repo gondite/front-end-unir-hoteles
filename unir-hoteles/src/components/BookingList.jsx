@@ -62,6 +62,7 @@ export const BookingList = () => {
                     <>
                         {bookings.map((booking, index) => (
                             <BookingCard
+                                key={index}
                                 index={index}
                                 booking={booking}
                                 hotel={hotels.find(hotel => hotel.id === booking.hotel)}
