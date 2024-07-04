@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import {GeoContext} from '../contexts/GeoContext';
 import ModalLogin from "./ModalLogin";
@@ -9,7 +9,12 @@ export const Header = () => {
     const {usuario, setUsuario, favoriteCount,setFavoriteCount,setFavoriteHotels} = useContext(GeoContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false); // Estado para controlar la apertura del modal de registro
+    const [bookingCount, setBookingCount] = useState(usuario && usuario.bookings ? usuario.bookings.length : 0);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        setBookingCount(usuario && usuario.bookings ? usuario.bookings.length : 0);
+    }, [usuario])
 
     const handleIniciarClick = () => {
         setIsModalOpen(true);
@@ -80,6 +85,11 @@ export const Header = () => {
         await fetchFavoriteHotels();
         navigate('/favorites');
     };
+
+    const handleBookingsClick = () => {
+        navigate('/bookings');
+    }
+
     return (
         <div>
             <nav className="header">
@@ -109,6 +119,12 @@ export const Header = () => {
                             <a onClick={handleFavoritesClick}>
                                 <i className="material-icons left">favorite</i>
                                 Favoritos (<span className="favorite-counter">{favoriteCount}</span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick={handleBookingsClick}>
+                                <i className="left material-icons">event_available</i>
+                                Reservas (<span className="favorite-counter">{usuario.bookings.length}</span>)
                             </a>
                         </li>
                         <li>

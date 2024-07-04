@@ -15,7 +15,7 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
 
     const [isFavorite, setIsFavorite] = useState(false);
     // const [favoriteCount, setFavoriteCount] = useState(0);
-    const { usuario, favoriteHotels, setFavoriteHotels, addFavoriteHotel,getFavHotels,favoriteCount, setFavoriteCount } = useContext(GeoContext);
+    const { usuario, favoriteHotels, setFavoriteHotels, addFavoriteHotel,getFavHotels,favoriteCount, setFavoriteCount, dates } = useContext(GeoContext);
     const { setHotelData } = useContext(GeoContext);
     // Check if the current hotel is in the user's favorites
     useEffect(() => {
@@ -152,7 +152,13 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
                     </button>
                 )}
             </div>
-            {isBookingModalOpen && <ModalBooking hotelId={id} onClose={handleCloseBookingModal}></ModalBooking>}
+            {isBookingModalOpen && <ModalBooking
+                hotelId={id}
+                startDate={dates.startDate ? dates.startDate : ''}
+                endDate={dates.endDate ? dates.endDate : ''}
+                contact={usuario.email}
+                onClose={handleCloseBookingModal}
+            ></ModalBooking>}
             {isModalOpen && <ModalLogin onClose={handleCloseModal} />}
         </div>
     );

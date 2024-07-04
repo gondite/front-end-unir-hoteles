@@ -11,6 +11,7 @@ import {WelcomeView} from "../components/WelcomeView";
 import {Comentarios} from "../components/Comentarios";
 import {NotFound} from "../components/NotFound";
 import { GeoContext } from "../contexts/GeoContext";
+import {BookingList} from "../components/BookingList";
 
 export const GeometricRouter = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +38,7 @@ export const GeometricRouter = () => {
                     }
                 />
                 <Route path="/favorites" element={<HotelFavList/>}/>
+                <Route path="/bookings" element={<BookingList/>}/>
                 <Route path="/hoteles/:id/comentarios" element={<Comentarios/>}/>
                 <Route path="*" element={
                     <NotFound/>

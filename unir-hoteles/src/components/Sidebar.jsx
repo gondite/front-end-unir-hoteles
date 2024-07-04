@@ -1,10 +1,12 @@
-import React, {useState } from 'react';
+import React, {useContext, useState} from 'react';
 import '../styles/sidebar.css';
 import {translations} from "../utils/Translations";
+import {GeoContext} from "../contexts/GeoContext";
 
 export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets }) => {
     const [showAllFacilities, setShowAllFacilities] = useState(false);
     const [containerHeight, setContainerHeight] = useState('auto'); // Estado para controlar la altura del contenedor
+    const {dates} = useContext(GeoContext);
 
     const toggleShowAllFacilities = () => {
         setShowAllFacilities(!showAllFacilities);
@@ -351,7 +353,8 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                     type="date"
                     id="trip-start2"
                     name="startDate2"
-                    onInput={(e) => handleFacetChange("startDate2", e.target.value)}
+                    onInput={(e) => handleFacetChange("startDate", e.target.value)}
+                    value={dates.startDate}
                     placeholder="Fecha de inicio"
                 />
 
@@ -360,7 +363,8 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                     type="date"
                     id="trip-end2"
                     name="endDate2"
-                    onInput={(e) => handleFacetChange("endDate2", e.target.value)}
+                    onInput={(e) => handleFacetChange("endDate", e.target.value)}
+                    value={dates.endDate}
                     placeholder="Fecha de fin"
                 />
             </fieldset>

@@ -44,7 +44,7 @@ export const ModalLogin = ({onClose}) => {
             .then(() => {
                 setHotels([]);
                 closeModal();
-                navigate('/search');
+                //navigate('/search');
             });
     }
 

@@ -18,6 +18,27 @@ const useLogin = () => {
         }));
     };
 
+    const fetchBookings = async (userId) => {
+        const requestBody = {
+            "targetMethod": "GET",
+            "queryParams": {
+                "userId": [userId.toString()]
+            }
+        };
+
+        const response = await fetch('http://localhost:8762/ms-bookings/bookings', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+        if (response.ok) {
+            return await response.json();
+        }
+        else{
+            return [];
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -40,10 +61,18 @@ const useLogin = () => {
             console.log(response)
             if (response.ok) {
                 const data = await response.json();
+                const bookings = await fetchBookings(data.id);
                 console.log('Login exitoso:', data);
                 setError(null);
                 setIsLoggedIn(true);
-                setUsuario({ nombre: formData.username ,id : data.id,favorites: data.favorites, coments: data.coments,email: data.email});
+                setUsuario({
+                    nombre: formData.username ,
+                    id : data.id,
+                    favorites: data.favorites,
+                    bookings: bookings,
+                    coments: data.coments,
+                    email: data.email
+                });
                 setFavoriteCount(data.favorites.split(',').length);
             }
             else if(response.status === 401) {

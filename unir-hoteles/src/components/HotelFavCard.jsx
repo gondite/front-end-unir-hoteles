@@ -4,11 +4,13 @@ import ModalLogin from './ModalLogin';
 import { GeoContext } from "../contexts/GeoContext";
 import Rating from "@mui/material/Rating";
 import HotelMap from "./HotelMap";
+import ModalBooking from "./ModalBooking";
 
 export const HotelFavCard = ({index,hotel, images, title, address, description, stars, maxOpinion, price, facilities,contactMail,contactNumber,latitude,longitude,id, searchQuery}) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount,getFavHotels,addFavoriteHotel } = useContext(GeoContext);
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const {usuario, favoriteHotels, setFavoriteHotels, setFavoriteCount,getFavHotels,addFavoriteHotel, dates } = useContext(GeoContext);
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
@@ -38,7 +40,8 @@ export const HotelFavCard = ({index,hotel, images, title, address, description, 
 
     const handleReservarClick = () => {
         if (usuario) {
-            alert('¡Compra realizada!');
+            setIsBookingModalOpen(true)
+            //window.open("https://buy.stripe.com/test_14k3dMaQX9dM4249AE", "_blank");
         } else {
             setIsModalOpen(true);
         }
@@ -66,6 +69,10 @@ export const HotelFavCard = ({index,hotel, images, title, address, description, 
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleCloseBookingModal = () => {
+        setIsBookingModalOpen(false);
     };
 
     const markers = [
@@ -131,6 +138,11 @@ export const HotelFavCard = ({index,hotel, images, title, address, description, 
                     </button>
                 )}
             </div>
+            {isBookingModalOpen && <ModalBooking
+                hotelId={id}
+                contact={usuario.email}
+                onClose={handleCloseBookingModal}
+            ></ModalBooking>}
             {isModalOpen && <ModalLogin onClose={handleCloseModal}/>}
         </div>
     );

@@ -17,6 +17,10 @@ const GeoProvider = ({children}) => {
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [dates, setDates] = useState({
+        startDate: '',
+        endDate: ''
+    });
     
     const buildQueryParams = (query) => {
         const params = {};
@@ -222,7 +226,7 @@ const GeoProvider = ({children}) => {
         });
 
         //Si la faceta es de nombre o dirección, se añade directamente a la URL y se reemplaza si ya existía
-        if (facetKey === "name" || facetKey === "address") {
+        if (facetKey === "name" || facetKey === "address" || facetKey === "startDate" || facetKey === "endDate") {
             facetsQueryParams.set(facetKey, facetValue);
         }
 
@@ -257,6 +261,18 @@ const GeoProvider = ({children}) => {
         }
 
         //Se actualizan variables de estado y se resetea el numero de pagina actual y la lista actual de empleados
+        if (facetKey === "startDate"){
+            setDates(prevState => ({
+                ...prevState,
+                startDate: facetValue
+            }))
+        }
+        if (facetKey === "endDate"){
+            setDates(prevState => ({
+                ...prevState,
+                endDate: facetValue
+            }))
+        }
         setFacetsUrl(url + decodeURIComponent(facetsQueryParams.toString()));
         setPage(0); // Reset page to 0 when facets change
         setHotels([]); // Clear current employees when facets change
@@ -291,7 +307,8 @@ const GeoProvider = ({children}) => {
             selectedFacets,
             loadMore,
             loading,
-            error
+            error,
+            dates
         }}>
             {children}
         </GeoContext.Provider>

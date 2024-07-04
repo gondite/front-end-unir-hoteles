@@ -4,16 +4,16 @@ import swal from 'sweetalert';
 import Swal from 'sweetalert2';
 import {GeoContext} from "../contexts/GeoContext";
 
-export const ModalBooking = ({hotelId, onClose}) => {
+export const ModalBooking = ({hotelId, bookingId, startDate, endDate, contact, bookingRooms, bookingAdults, bookingChildren, onClose, update}) => {
 
     const { usuario } = useContext(GeoContext);
     const [formData, setFormData] = useState({
-        contact: '',
-        startDate: '',
-        endDate: '',
-        rooms: null,
-        adults: null,
-        children: null
+        contact: contact ? contact : '',
+        startDate: startDate ? startDate : '',
+        endDate: endDate ? endDate : '',
+        rooms: bookingRooms ? bookingRooms : null,
+        adults: bookingAdults ? bookingAdults : null,
+        children: bookingChildren ? bookingChildren : null
     });
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export const ModalBooking = ({hotelId, onClose}) => {
     const [adults, setAdults] = useState(formData.adults || 2);
     const [children, setChildren] = useState(formData.children || 0);
     const [rooms, setRooms] = useState(formData.rooms || 1);
+    const {setUsuario} = useContext(GeoContext);
 
     const createErrorMessage = (id, message) => {
         let existingMessage = document.getElementById(id + 'Error');
@@ -51,7 +52,6 @@ export const ModalBooking = ({hotelId, onClose}) => {
             }
         }
     };
-
 
     const removeErrorMessage = (id) => {
         let existingMessage = document.getElementById(id + 'Error');
@@ -116,54 +116,126 @@ export const ModalBooking = ({hotelId, onClose}) => {
         }
     };
 
+    const createBooking = () => {
+        Swal.fire({
+            title: '¿Estás seguro de que deseas realizar la reserva?',
+            text: "No podrás revertir esto después.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, reservar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const body = {
+                    "targetMethod": "POST",
+                    "body": {
+                        "rooms": rooms,
+                        "adults": adults,
+                        "children": children,
+                        "contact": formData.contact,
+                        "userId": usuario.id,
+                        "hotel": hotelId,
+                        "startDate": formData.startDate,
+                        "endDate": formData.endDate,
+                    }
+                };
+
+                fetch("http://localhost:8762/ms-bookings/bookings", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+
+                        if (data && !data.error) {
+                            console.log("Post response data:")
+                            console.log(data);
+                            console.log([...usuario.bookings, data])
+                            swal("¡Reserva exitosa!", "¡Gracias por elegirnos!", "success");
+                            setUsuario(prevState => ({
+                                ...prevState,
+                                bookings: [...prevState.bookings, data],
+                            }))
+                            onClose();
+                        }
+                    })
+                    .catch((error) => console.log(error));
+            }
+        });
+    }
+
+    const updateBooking = () => {
+        Swal.fire({
+            title: '¿Estás seguro de que deseas modificar la reserva?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, modificar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const body = {
+                    "targetMethod": "PUT",
+                    "body": {
+                        "rooms": rooms,
+                        "adults": adults,
+                        "children": children,
+                        "contact": formData.contact,
+                        "userId": usuario.id,
+                        "hotel": hotelId,
+                        "startDate": formData.startDate,
+                        "endDate": formData.endDate,
+                    }
+                };
+
+                fetch(`http://localhost:8762/ms-bookings/bookings/${bookingId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data && !data.error) {
+                            swal("¡Actualización exitosa!", "¡Gracias por elegirnos!", "success");
+                            setUsuario(prevState => ({
+                                ...prevState,
+                                bookings: prevState.bookings.map(booking => {
+                                    if (booking.id === bookingId) {
+                                        return data;
+                                    }
+                                    else{
+                                        return booking;
+                                    }
+                                })
+                            }))
+                            onClose();
+                        }
+                    })
+                    .catch((error) => console.log(error));
+            }
+        });
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const isValid = validateAdults() & validateChildren() & validateRooms() & validateDates() & validateContact();
 
         if (isValid) {
-            Swal.fire({
-                title: '¿Estás seguro de que deseas realizar la reserva?',
-                text: "No podrás revertir esto después.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, reservar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const body = {
-                        "targetMethod": "POST",
-                        "body": {
-                            "rooms": rooms,
-                            "adults": adults,
-                            "children": children,
-                            "contact": formData.contact,
-                            "userId": usuario.id,
-                            "hotel": hotelId,
-                            "startDate": formData.startDate,
-                            "endDate": formData.endDate,
-                        }
-                    };
-
-                    fetch("http://localhost:8762/ms-bookings/bookings", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body),
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data && !data.error) {
-                                console.log(data);
-                                swal("¡Reserva exitosa!", "¡Gracias por elegirnos!", "success");
-                                onClose();
-                            }
-                        })
-                        .catch((error) => console.log(error));
-                }
-            });
+            if (update && bookingId){
+                updateBooking();
+            }
+            else{
+                createBooking();
+            }
         }
     };
 
@@ -321,8 +393,10 @@ export const ModalBooking = ({hotelId, onClose}) => {
                             </div>
                         </div>
                         <br/>
-
-                        <button className="btn waves-light" id="reservar-btn" type="submit">Reservar</button>
+                        {update ?
+                            <button className="btn waves-light" id="reservar-btn" type="submit">Modificar</button> :
+                            <button className="btn waves-light" id="reservar-btn" type="submit">Reservar</button>
+                        }
                     </form>
                 </div>
             </div>
