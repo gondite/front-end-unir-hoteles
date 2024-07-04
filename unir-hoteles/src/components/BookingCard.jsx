@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import FacilitiesList from './FacilitiesList';
-import { GeoContext } from "../contexts/GeoContext";
+import {GeoContext} from "../contexts/GeoContext";
 import Rating from '@mui/material/Rating';
 import HotelMap from './HotelMap';
 import {useNavigate} from "react-router";
@@ -11,13 +11,20 @@ import Swal from "sweetalert2";
 import swal from "sweetalert";
 
 
-export const BookingCard = ({ index, booking, hotel }) => {
+export const BookingCard = ({index, booking, hotel}) => {
 
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { usuario, setUsuario, addFavoriteHotel, getFavHotels, setFavoriteCount, setHotelData } = useContext(GeoContext);
+    const {
+        usuario,
+        setUsuario,
+        addFavoriteHotel,
+        getFavHotels,
+        setFavoriteCount,
+        setHotelData
+    } = useContext(GeoContext);
 
     // Check if the current hotel is in the user's favorites
     useEffect(() => {
@@ -42,7 +49,7 @@ export const BookingCard = ({ index, booking, hotel }) => {
     };
 
     const handleNextClick = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex ===hotel. images.length - 1 ? 0 : prevIndex + 1));
+        setCurrentImageIndex((prevIndex) => (prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1));
     };
 
     const handleFavoriteClick = async () => {
@@ -131,58 +138,7 @@ export const BookingCard = ({ index, booking, hotel }) => {
     const HotelInfo = () => {
         return (
             <>
-                <h5>{hotel.name} {hotel.stars && <Rating name="read-only" value={hotel.stars} readOnly/>}</h5>
-                <div className="flex-container">
-                    <div className="gallery-container">
-                        <img src={hotel.images[currentImageIndex]} alt="Hotel" className="active"/>
-                        <button className="gallery-button prev" onClick={handlePrevClick}><i
-                            className="material-icons">arrow_back</i></button>
-                        <button className="gallery-button next" onClick={handleNextClick}><i
-                            className="material-icons">arrow_forward</i></button>
-                    </div>
-                    {hotel.latitude && hotel.longitude && <HotelMap markers={markers}/>}
-                </div>
 
-                <div className="info-container">
-                    <div className="info-container-1">
-                        <FacilitiesList facilities={hotel.facilities}/>
-                    </div>
-                    <p className="hotel-description"><b>{hotel.address}</b> <br/>
-                        {hotel.description}</p>
-                    <div className="info-container-2">
-                        {hotel.opinion &&
-                            <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {hotel.opinion}</p>}
-                        {hotel.price !== 0 &&
-                            <p><i className="material-icons">attach_money</i> Precio: {hotel.price} €</p>}
-                        {hotel.contactMail && (
-                            <p>
-                                <i className="material-icons">email</i>
-                                Email: <a href={`mailto:${hotel.contactMail}`}>{hotel.contactMail}</a>
-                            </p>
-                        )}
-                        {hotel.contactNumber &&
-                            <p><i className="material-icons">phone</i> Teléfono: {hotel.contactNumber}</p>}
-
-                    </div>
-                </div>
-
-                <div className="card-footer">
-                    {usuario && (
-                        <button
-                            className="btn waves-effect waves-light"
-                            // onClick={() => handleChatClick(index)}>
-                            onClick={() => handleChatClick(hotel.id)}>
-                            <i className="material-icons">chat</i>
-                        </button>
-                    )}
-                    {usuario && (
-                        <button
-                            className={`btn waves-effect waves-light favorite-button ${isFavorite ? 'favorite-active' : ''}`}
-                            onClick={handleFavoriteClick}>
-                            <i className="material-icons">favorite</i>
-                        </button>
-                    )}
-                </div>
             </>
         )
     }
@@ -191,46 +147,103 @@ export const BookingCard = ({ index, booking, hotel }) => {
         <div className="card-hotel z-depth-2">
             <div className="booking-container">
                 <div className="container-hotel-info">
-                    <HotelInfo/>
-                </div>
-                <div className="container-booking-info">
-                    <h5>Información de la reserva</h5>
-                    <div className="booking-info">
-                        <p>Fecha Inicio: <span>{booking.startDate}</span></p>
-                        <p>Fecha Fin: <span>{booking.endDate}</span></p>
-                        <br/>
-                        <p>Contacto: <span>{booking.contact}</span></p>
-                        <p>Habitaciones: <span>{booking.rooms}</span></p>
-                        <p>Adultos: <span>{booking.adults}</span></p>
-                        <p>Niños: <span>{booking.children}</span></p>
+                    <h5>{hotel.name} {hotel.stars && <Rating name="read-only" value={hotel.stars} readOnly/>}</h5>
+                    <div className="flex-container">
+                        <div className="gallery-container">
+                            <img src={hotel.images[currentImageIndex]} alt="Hotel" className="active"/>
+                            <button className="gallery-button prev" onClick={handlePrevClick}><i
+                                className="material-icons">arrow_back</i></button>
+                            <button className="gallery-button next" onClick={handleNextClick}><i
+                                className="material-icons">arrow_forward</i></button>
+                        </div>
+                        {hotel.latitude && hotel.longitude && <HotelMap markers={markers}/>}
+                        <div className="container-booking-info">
+                            <h5>Información de la reserva</h5>
+                            <div className="booking-info">
+                                <p><b>Fecha Inicio:</b> <span>{booking.startDate}</span></p>
+                                <p><b>Fecha Fin:</b> <span>{booking.endDate}</span></p>
+                                <p><b>Contacto:</b> <span>{booking.contact}</span></p>
+                                <p><b>Habitaciones:</b> <span>{booking.rooms}</span></p>
+                                <p><b>Adultos:</b> <span>{booking.adults}</span></p>
+                                <p><b>Niños:</b> <span>{booking.children}</span></p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="booking-footer">
-                        <button
-                            className="btn waves-effect waves-light"
-                            // onClick={() => handleChatClick(index)}>
-                            onClick={handleModify}>
-                            Modificar
-                        </button>
-                        <button
-                            className="btn waves-effect waves-light red"
-                            onClick={handleCancel}>
-                            Cancelar
-                        </button>
+
+                    <div className="info-container">
+                        <div className="info-container-1">
+                            <FacilitiesList facilities={hotel.facilities}/>
+                        </div>
+                        <p className="hotel-description"><b>{hotel.address}</b> <br/>
+                            {hotel.description}</p>
+                        <div className="info-container-2">
+                            {hotel.opinion &&
+                                <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {hotel.opinion}
+                                </p>}
+                            {hotel.price !== 0 &&
+                                <p><i className="material-icons">attach_money</i> Precio: {hotel.price} €</p>}
+                            {hotel.contactMail && (
+                                <p>
+                                    <i className="material-icons">email</i>
+                                    Email: <a href={`mailto:${hotel.contactMail}`}>{hotel.contactMail}</a>
+                                </p>
+                            )}
+                            {hotel.contactNumber &&
+                                <p><i className="material-icons">phone</i> Teléfono: {hotel.contactNumber}</p>}
+
+                        </div>
+
                     </div>
+
+                    <div className="card-footer">
+                        {usuario && (
+                            <button
+                                className="btn waves-effect waves-light"
+                                // onClick={() => handleChatClick(index)}>
+                                onClick={() => handleChatClick(hotel.id)}>
+                                <i className="material-icons">chat</i>
+                            </button>
+                        )}
+                        {usuario && (
+                            <button
+                                className={`btn waves-effect waves-light favorite-button ${isFavorite ? 'favorite-active' : ''}`}
+                                onClick={handleFavoriteClick}>
+                                <i className="material-icons">favorite</i>
+                            </button>
+                        )}
+                        {usuario && (
+                            <button
+                                className="btn waves-effect waves-light"
+                                // onClick={() => handleChatClick(index)}>
+                                onClick={handleModify}>
+                                Modificar
+                            </button>
+                        )}
+                        {usuario && (
+                            <button
+                                className="btn waves-effect waves-light red"
+                                onClick={handleCancel}>
+                                Cancelar
+                            </button>
+                        )}
+                    </div>
+
                 </div>
+
             </div>
-            {isModalOpen && <ModalBooking
-                hotelId={hotel.id}
-                startDate={booking.startDate ? booking.startDate : ''}
-                endDate={booking.endDate ? booking.endDate : ''}
-                contact={booking.contact}
-                bookingRooms={booking.rooms}
-                bookingAdults={booking.adults}
-                bookingChildren={booking.children}
-                onClose={handleCloseModal}
-                update={true}
-                bookingId={booking.id}
-            ></ModalBooking>}
+            {
+                isModalOpen && <ModalBooking
+                    hotelId={hotel.id}
+                    startDate={booking.startDate ? booking.startDate : ''}
+                    endDate={booking.endDate ? booking.endDate : ''}
+                    contact={booking.contact}
+                    bookingRooms={booking.rooms}
+                    bookingAdults={booking.adults}
+                    bookingChildren={booking.children}
+                    onClose={handleCloseModal}
+                    update={true}
+                    bookingId={booking.id}
+                ></ModalBooking>}
         </div>
 
     );
