@@ -2,7 +2,7 @@
     display: table;
 }
 
- .hotel-map{
+.map-container-bookings {
     width: 50%;
 }
 .container-booking-info > h5{
