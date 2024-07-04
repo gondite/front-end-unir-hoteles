@@ -43,7 +43,7 @@ const useLogin = () => {
                 console.log('Login exitoso:', data);
                 setError(null);
                 setIsLoggedIn(true);
-                setUsuario({ nombre: formData.username ,id : data.id,favorites: data.favorites, coments: data.coments});
+                setUsuario({ nombre: formData.username ,id : data.id,favorites: data.favorites, coments: data.coments,email: data.email});
                 setFavoriteCount(data.favorites.split(',').length);
             } else {
                 const errorData = await response.json();

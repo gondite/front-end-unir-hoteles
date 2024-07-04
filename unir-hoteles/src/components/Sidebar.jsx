@@ -120,8 +120,8 @@ export const Sidebar = ({ onSearch }) => {
                 </fieldset>
                 <br/>
                 <label>
-                    <input type="text" id="search-input" name="searchInput" value={formData.searchInput}
-                           onChange={handleChange} placeholder="Buscar hoteles..."/>
+                    <input type="text" id="search-input" name="searchInput" class="autocomplete" value={formData.searchInput}
+                           onChange={handleChange} placeholder="Buscar hoteles..." />
                 </label>
                 <button type="submit" className="btn waves-effect waves-light search-btn">Buscar</button>
             </form>

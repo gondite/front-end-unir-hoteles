@@ -43,7 +43,6 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
     };
 
     const handleReservarClick = () => {
-        console.log(usuario)
         if (usuario) {
             setIsBookingModalOpen(true)
             //window.open("https://buy.stripe.com/test_14k3dMaQX9dM4249AE", "_blank");
@@ -75,36 +74,6 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
         setHotelData({ images, title, description, stars, price, facilities, searchQuery });
         navigate(`/hoteles/${hotelId}/comentarios`);
     };
-
-
-    const fetchChat = async (hotelId) => {
-        console.log(hotelId)
-        try {
-            const requestBody = {
-                targetMethod: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            };
-            const response = await fetch(`http://localhost:8762/ms-users/hotels/${hotelId}/comments`, {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(requestBody)
-            })
-            console.log(response);
-            if (!response.ok) {
-                throw new Error('Error fetching chat');
-            }
-            const chat = await response.text();
-            console.log(chat);
-            setHotelData({ images, title, description, stars, price, facilities, searchQuery });
-            navigate(`/hoteles/${hotelId}/comentarios`);
-            // const chatArray = chat.split(',').map(id => id.trim());
-        }
-        catch (error) {
-            console.error('Error fetching chat:', error);
-        }
-    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -168,7 +137,7 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
                     <button
                         className="btn waves-effect waves-light"
                         // onClick={() => handleChatClick(index)}>
-                        onClick={() => fetchChat(id)}>
+                        onClick={() => handleChatClick(id)}>
                         <i className="material-icons">chat</i>
                     </button>
                 )}
