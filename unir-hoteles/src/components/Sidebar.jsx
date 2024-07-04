@@ -3,6 +3,38 @@ import '../styles/sidebar.css';
 import {translations} from "../utils/Translations";
 
 export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets }) => {
+    const [showAllFacilities, setShowAllFacilities] = useState(false);
+
+    const initialFacilities = [
+        'Wifi gratis',
+        'Piscina',
+        'Parking',
+        'Gimnasio',
+        'Jacuzzi',
+        'Mascotas permitidas',
+        'Ventilador',
+        'Radio',
+        'Wc',
+        'Prohibido fumar en todo el alojamiento',
+        'Tv',
+        'Aire acondicionado'
+    ];
+
+    const getLegendText = (facetKey) => {
+        switch (facetKey) {
+            case 'priceValues':
+                return 'Rango de precios';
+            case 'opinionValues':
+                return 'Opinión de usuarios';
+            case 'facilities':
+                return 'Instalaciones y servicios';
+            case 'starsValues':
+                return 'Número de estrellas';
+            default:
+                return 'Filtros';
+        }
+    };
+
     /*const [formData, setFormData] = useState({
         sortBy: 'popularity',
         start: [],
@@ -36,6 +68,8 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
         event.preventDefault();
         onSearch(formData);
     };*/
+
+
 
     return (
         /*<div className="sidebar">
@@ -127,10 +161,11 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                 <button type="submit" className="btn waves-effect waves-light search-btn">Buscar</button>
             </form>
         </div>*/
+
         <div className="sidebar">
-            <h1>Filtros estáticos</h1>
+            {/* Filtros estáticos */}
             <div key={"name"} className="facet-category">
-                <h3>Nombre de pila (Completo)</h3>
+                <h6>Nombre de pila (Completo)</h6>
                 <div className="facet-options">
                     <input
                         type="text"
@@ -141,7 +176,7 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                 </div>
             </div>
             <div key={"address"} className="facet-category">
-                <h3>Dirección (Parcial)</h3>
+                <h6>Dirección (Parcial)</h6>
                 <div className="facet-options">
                     <input
                         type="text"
@@ -152,29 +187,79 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                 </div>
             </div>
 
-            {
-                Object.keys(facets).length > 0 && <h1>Filtros dinámicos</h1>
-            }
+            {/* Filtros dinámicos */}
+            {/*{Object.keys(facets).length > 0 && <h2>Filtros dinámicos</h2>}*/}
 
             {Object.keys(facets).map((facetKey) => (
                 <div key={facetKey} className="facet-category">
                     <h3>{translations.get(facetKey)}</h3>
-                    <div className="facet-options">
-                        {facets[facetKey].map((facetValue) => (
-
-                            //Aseguramos mediante renderizado condicional que solo se muestren las opciones con un número de empleados mayor que 0
-                            facetValue.count > 0 &&
-                            <div
-                                key={facetValue.key}
-                                className={`facet-option ${selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key) ? 'selected' : ''}`}
-                                onClick={() => handleFacetChange(facetKey, facetValue.key)}
-                            >
-                                {translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})
+                    <fieldset>
+                        <legend>{getLegendText(facetKey)}</legend>
+                        {facetKey === 'facilities' ? (
+                            <div className="facet-options">
+                                {facets[facetKey].map((facetValue, index) => (
+                                    (showAllFacilities || initialFacilities.includes(facetValue.key)) && facetValue.count > 0 && (
+                                        <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                            <input
+                                                type="checkbox"
+                                                name={facetKey}
+                                                value={facetValue.key}
+                                                checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
+                                                onChange={() => handleFacetChange(facetKey, facetValue.key)}
+                                                style={{marginRight: '5px'}}
+                                            />
+                                            <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})</span>
+                                        </label>
+                                    )
+                                ))}
+                                {facets[facetKey].length > initialFacilities.length && (
+                                    <div className="show-more" onClick={() => setShowAllFacilities(!showAllFacilities)}>
+                                        <span>{showAllFacilities ? 'Mostrar menos' : 'Mostrar más'}</span>
+                                    </div>
+                                )}
                             </div>
-                        ))}
-                    </div>
+                        ) : (
+                            <div className="facet-options">
+                                {facets[facetKey].map((facetValue) => (
+                                    facetValue.count > 0 && (
+                                        <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                            <input
+                                                type="checkbox"
+                                                name={facetKey}
+                                                value={facetValue.key}
+                                                checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
+                                                onChange={() => handleFacetChange(facetKey, facetValue.key)}
+                                                style={{marginRight: '5px'}}
+                                            />
+                                            <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})</span>
+                                        </label>
+                                    )
+                                ))}
+                            </div>
+                        )}
+                    </fieldset>
                 </div>
             ))}
+            <fieldset>
+                <legend>Fechas:</legend>
+                <label htmlFor="trip-start2">Fecha de inicio:</label>
+                <input
+                    type="date"
+                    id="trip-start2"
+                    name="startDate2"
+                    onInput={(e) => handleFacetChange("startDate2", e.target.value)}
+                    placeholder="Fecha de inicio"
+                />
+
+                <label htmlFor="trip-end2">Fecha de fin:</label>
+                <input
+                    type="date"
+                    id="trip-end2"
+                    name="endDate2"
+                    onInput={(e) => handleFacetChange("endDate2", e.target.value)}
+                    placeholder="Fecha de fin"
+                />
+            </fieldset>
         </div>
     );
 };
