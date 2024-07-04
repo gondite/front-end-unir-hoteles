@@ -4,7 +4,12 @@ import {translations} from "../utils/Translations";
 
 export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets }) => {
     const [showAllFacilities, setShowAllFacilities] = useState(false);
+    const [containerHeight, setContainerHeight] = useState('auto'); // Estado para controlar la altura del contenedor
 
+    const toggleShowAllFacilities = () => {
+        setShowAllFacilities(!showAllFacilities);
+        setContainerHeight(showAllFacilities ? 'auto' : '400px'); // Cambia la altura máxima del contenedor al hacer clic
+    };
     const initialFacilities = [
         'Wifi gratis',
         'Piscina',
@@ -165,7 +170,7 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
         <div className="sidebar">
             {/* Filtros estáticos */}
             <div key={"name"} className="facet-category">
-                <h6>Nombre de pila (Completo)</h6>
+                <h6>Nombre del hotel (Completo)</h6>
                 <div className="facet-options">
                     <input
                         type="text"
@@ -195,48 +200,147 @@ export const Sidebar = ({ onSearch, facets, handleFacetChange, selectedFacets })
                     <h3>{translations.get(facetKey)}</h3>
                     <fieldset>
                         <legend>{getLegendText(facetKey)}</legend>
-                        {facetKey === 'facilities' ? (
-                            <div className="facet-options">
+                        {facetKey === 'facilities' && (
+                            <div className="facet-options" style={{ maxHeight: containerHeight, overflowY: 'auto' }}>
                                 {facets[facetKey].map((facetValue, index) => (
                                     (showAllFacilities || initialFacilities.includes(facetValue.key)) && facetValue.count > 0 && (
-                                        <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                        <label key={facetValue.key} style={{ display: 'block', marginBottom: '10px' }}>
                                             <input
                                                 type="checkbox"
                                                 name={facetKey}
                                                 value={facetValue.key}
                                                 checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
                                                 onChange={() => handleFacetChange(facetKey, facetValue.key)}
-                                                style={{marginRight: '5px'}}
+                                                style={{ marginRight: '5px' }}
                                             />
                                             <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})</span>
                                         </label>
                                     )
                                 ))}
                                 {facets[facetKey].length > initialFacilities.length && (
-                                    <div className="show-more" onClick={() => setShowAllFacilities(!showAllFacilities)}>
+                                    <div className="show-more" onClick={toggleShowAllFacilities}>
                                         <span>{showAllFacilities ? 'Mostrar menos' : 'Mostrar más'}</span>
                                     </div>
                                 )}
                             </div>
-                        ) : (
+                        )}
+                        {facetKey === 'starsValues' && (
                             <div className="facet-options">
-                                {facets[facetKey].map((facetValue) => (
-                                    facetValue.count > 0 && (
-                                        <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
-                                            <input
-                                                type="checkbox"
-                                                name={facetKey}
-                                                value={facetValue.key}
-                                                checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
-                                                onChange={() => handleFacetChange(facetKey, facetValue.key)}
-                                                style={{marginRight: '5px'}}
-                                            />
-                                            <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})</span>
-                                        </label>
-                                    )
-                                ))}
+                                {facets[facetKey].map((facetValue) => {
+                                    let label = "";
+                                    switch (facetValue.key) {
+                                        case '-2':
+                                            label = "Menor de 2 estrellas";
+                                            break;
+                                        case '2-4':
+                                            label = "Entre 2 y 4 estrellas";
+                                            break;
+                                        case '4-':
+                                            label = "Más de 4 estrellas";
+                                            break;
+                                        case '5':
+                                            label = "5 estrellas";
+                                            break;
+                                        default:
+                                            label = facetValue.key; // En caso de no coincidir con ninguno de los casos anteriores, muestra el valor original
+                                            break;
+                                    }
+
+                                    return (
+                                        facetValue.count > 0 && (
+                                            <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                                <input
+                                                    type="checkbox"
+                                                    name={facetKey}
+                                                    value={facetValue.key}
+                                                    checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
+                                                    onChange={() => handleFacetChange(facetKey, facetValue.key)}
+                                                    style={{marginRight: '5px'}}
+                                                />
+                                                <span>{label} ({facetValue.count})</span>
+                                            </label>
+                                        )
+                                    );
+                                })}
                             </div>
                         )}
+
+                        {facetKey === 'opinionValues' && (
+                            <div className="facet-options">
+                                {facets[facetKey].map((facetValue) => {
+                                    let label = "";
+                                    switch (facetValue.key) {
+                                        case '-5':
+                                            label = "Menos de 5";
+                                            break;
+                                        case '5-8':
+                                            label = "Entre 5 y 8";
+                                            break;
+                                        case '8-':
+                                            label = "Más de 8";
+                                            break;
+                                        default:
+                                            label = facetValue.key; // En caso de no coincidir con ninguno de los casos anteriores, muestra el valor original
+                                            break;
+                                    }
+
+                                    return (
+                                        facetValue.count > 0 && (
+                                            <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                                <input
+                                                    type="checkbox"
+                                                    name={facetKey}
+                                                    value={facetValue.key}
+                                                    checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
+                                                    onChange={() => handleFacetChange(facetKey, facetValue.key)}
+                                                    style={{marginRight: '5px'}}
+                                                />
+                                                <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : label} ({facetValue.count})</span>
+                                            </label>
+                                        )
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {facetKey === 'priceValues' && (
+                            <div className="facet-options">
+                                {facets[facetKey].map((facetValue) => {
+                                    let label = "";
+                                    switch (facetValue.key) {
+                                        case '-50':
+                                            label = "Menos de €50";
+                                            break;
+                                        case '50-100':
+                                            label = "€50 - €100";
+                                            break;
+                                        case '100-':
+                                            label = "Más de €100";
+                                            break;
+                                        default:
+                                            label = facetValue.key; // En caso de no coincidir con ninguno de los casos anteriores, muestra el valor original
+                                            break;
+                                    }
+
+                                    return (
+                                        facetValue.count > 0 && (
+                                            <label key={facetValue.key} style={{display: 'block', marginBottom: '10px'}}>
+                                                <input
+                                                    type="checkbox"
+                                                    name={facetKey}
+                                                    value={facetValue.key}
+                                                    checked={selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key)}
+                                                    onChange={() => handleFacetChange(facetKey, facetValue.key)}
+                                                    style={{marginRight: '5px'}}
+                                                />
+                                                <span>{translations.get(facetValue.key) ? translations.get(facetValue.key) : label} ({facetValue.count})</span>
+                                            </label>
+                                        )
+                                    );
+                                })}
+                            </div>
+                        )}
+
                     </fieldset>
                 </div>
             ))}
