@@ -116,7 +116,7 @@ export const ModalBooking = ({hotelId, onClose}) => {
         }
     };
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const isValid = validateAdults() & validateChildren() & validateRooms() & validateDates() & validateContact();
 
@@ -144,7 +144,7 @@ export const ModalBooking = ({hotelId, onClose}) => {
                             "startDate": formData.startDate,
                             "endDate": formData.endDate,
                         }
-                    }
+                    };
 
                     fetch("http://localhost:8762/ms-bookings/bookings", {
                         method: "POST",
@@ -156,7 +156,7 @@ export const ModalBooking = ({hotelId, onClose}) => {
                         .then((response) => response.json())
                         .then((data) => {
                             if (data && !data.error) {
-                                console.log(data)
+                                console.log(data);
                                 swal("¡Reserva exitosa!", "¡Gracias por elegirnos!", "success");
                                 onClose();
                             }
@@ -199,7 +199,8 @@ export const ModalBooking = ({hotelId, onClose}) => {
         }));
     };
 
-    const increment = (field) => {
+    const increment = (field, e) => {
+        e.preventDefault();
         switch (field) {
             case 'adults':
                 handleAdultsChange(adults + 1);
@@ -215,7 +216,8 @@ export const ModalBooking = ({hotelId, onClose}) => {
         }
     };
 
-    const decrement = (field) => {
+    const decrement = (field, e) => {
+        e.preventDefault();
         switch (field) {
             case 'adults':
                 handleAdultsChange(adults - 1 >= 1 ? adults - 1 : 1);
@@ -230,7 +232,6 @@ export const ModalBooking = ({hotelId, onClose}) => {
                 break;
         }
     };
-
 
     return (
         <div className={'booking-modal'}>
@@ -270,12 +271,12 @@ export const ModalBooking = ({hotelId, onClose}) => {
 
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Restar"
-                                        onClick={() => decrement('adults')}>
+                                        onClick={(e) => decrement('adults', e)}>
                                     <i className="material-icons">remove</i>
                                 </button>
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Sumar"
-                                        onClick={() => increment('adults')}>
+                                        onClick={(e) => increment('adults', e)}>
                                     <i className="material-icons">add</i>
                                 </button>
                             </div>
@@ -289,13 +290,13 @@ export const ModalBooking = ({hotelId, onClose}) => {
 
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Restar"
-                                        onClick={() => decrement('children')}>
+                                        onClick={(e) => decrement('children', e)}>
                                     <i className="material-icons">remove</i>
                                 </button>
 
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Sumar"
-                                        onClick={() => increment('children')}>
+                                        onClick={(e) => increment('children', e)}>
                                     <i className="material-icons">add</i>
                                 </button>
                             </div>
@@ -309,12 +310,12 @@ export const ModalBooking = ({hotelId, onClose}) => {
 
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Restar"
-                                        onClick={() => decrement('rooms')}>
+                                        onClick={(e) => decrement('rooms', e)}>
                                     <i className="material-icons">remove</i>
                                 </button>
                                 <button className="btn-floating btn-small waves-effect waves-light teal tooltipped"
                                         data-position="top" data-tooltip="Sumar"
-                                        onClick={() => increment('rooms')}>
+                                        onClick={(e) => increment('rooms', e)}>
                                     <i className="material-icons">add</i>
                                 </button>
                             </div>

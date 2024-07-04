@@ -7,7 +7,7 @@ import { GeoContext } from "../contexts/GeoContext";
 import Rating from '@mui/material/Rating';
 import HotelMap from './HotelMap';
 
-export const HotelCard = ({ index, images, title, address, description, stars, maxOpinion, price, facilities, contactMail, contactNumber, latitude, longitude, id, searchQuery }) => {
+export const HotelCard = ({ index, images, title, address, description, stars, maxOpinion, price, facilities, contactMail, contactNumber, latitude, longitude, id, availableRooms, searchQuery }) => {
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,11 +128,14 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
                         </p>
                     )}
                     {contactNumber && <p><i className="material-icons">phone</i> Teléfono: {contactNumber}</p>}
+
+                {availableRooms !== 0 && availableRooms <=10 && <p className={"availableRooms-warning"}><i className="material-icons">hotel</i> Habitaciones disponibles: {availableRooms}</p>}
                 </div>
             </div>
 
             <div className="card-footer">
-                <button className="btn waves-effect waves-light" onClick={handleReservarClick}>Reservar</button>
+                {availableRooms !== 0 && <button className="btn waves-effect waves-light" onClick={handleReservarClick}>Reservar</button>}
+                {availableRooms === 0 && <button className="btn waves-effect waves-light disabled" >Reservar</button>}
                 {usuario && (
                     <button
                         className="btn waves-effect waves-light"

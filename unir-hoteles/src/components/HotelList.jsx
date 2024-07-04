@@ -50,6 +50,7 @@ export const HotelList = ({ hotels, searchQuery }) => {
                         latitude={hotel.latitude}
                         longitude={hotel.longitude}
                         id={hotel.id}
+                        availableRooms = {hotel.availableRooms}
                         searchQuery={searchQuery}
                         index={index}
                     />

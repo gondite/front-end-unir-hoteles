@@ -11,13 +11,9 @@ import {
     faMaskVentilator,
     faRadio,
     faBath,
-    faBanSmoking,
     faSmokingBan,
-    faTv,
     faTelevision,
-    faAirFreshener,
-    faTemperatureHalf,
-    faTemperature2, faThermometer2, faStreetView
+    faTemperatureHalf,faStreetView
 } from '@fortawesome/free-solid-svg-icons';
 
 const FacilityIcon = ({ facility }) => {
