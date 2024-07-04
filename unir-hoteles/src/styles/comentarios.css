@@ -120,6 +120,10 @@
     padding: 10px;
     margin-right: 10px;
 }
+.chat-wrapper {
+    max-height: 750px;
+    overflow-y: auto;
+}
 
 .chat-input button {
     border: none;

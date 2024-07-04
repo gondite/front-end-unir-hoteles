@@ -110,13 +110,6 @@ export const HotelFavCard = ({index,hotel, images, title, address, description, 
                     {description}</p>
                 <div className="info-container-2">
                     {/*{maxOpinion.join(', ') && <p>maxOpiniones de usuarios: {maxOpinion.join(', ')}</p>}*/}
-                    {maxOpinion &&
-                        <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
-                    {/*{searchQuery['trip-start'] && searchQuery['trip-end'] && (*/}
-                    {/*    <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -*/}
-                    {/*        Fecha de fin: {searchQuery['trip-end']}</p>*/}
-                    {/*)}*/}
-                    {price !== 0 && <p><i className="material-icons">attach_money</i> Precio: {price} €</p>}
                     {contactMail && (
                         <p>
                             <i className="material-icons">email</i>
@@ -124,6 +117,14 @@ export const HotelFavCard = ({index,hotel, images, title, address, description, 
                         </p>
                     )}
                     {contactNumber && <p><i className="material-icons">phone</i> Teléfono: {contactNumber}</p>}
+                    {maxOpinion &&
+                        <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
+                    {/*{searchQuery['trip-start'] && searchQuery['trip-end'] && (*/}
+                    {/*    <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -*/}
+                    {/*        Fecha de fin: {searchQuery['trip-end']}</p>*/}
+                    {/*)}*/}
+                    {price !== 0 && <p><i className="material-icons">attach_money</i> Precio: {price} €</p>}
+
                 </div>
 
 
