@@ -45,7 +45,13 @@ const useLogin = () => {
                 setIsLoggedIn(true);
                 setUsuario({ nombre: formData.username ,id : data.id,favorites: data.favorites, coments: data.coments,email: data.email});
                 setFavoriteCount(data.favorites.split(',').length);
-            } else {
+            }
+            else if(response.status === 401) {
+                setError('Usuario o contraseña incorrectos');
+            }
+
+            else {
+                console.log(response)
                 const errorData = await response.json();
                 setError(errorData.message || 'Error al iniciar sesión');
                 alert("Error: " + (errorData.message || 'Error al iniciar sesión')); // Mostrar mensaje de error

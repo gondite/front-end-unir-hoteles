@@ -40,7 +40,8 @@ const FacilityIcon = ({ facility }) => {
                 return <FontAwesomeIcon icon={faHotTub} />;
             case 'Bañera de hidromasaje / jacuzzi':
                 return <FontAwesomeIcon icon={faHotTub} />;
-
+            case 'WiFi gratis':
+                return <FontAwesomeIcon icon={faWifi} />;
             case 'Mascotas permitidas':
                 return <FontAwesomeIcon icon={faCat} />;
             case 'Ventilador':
