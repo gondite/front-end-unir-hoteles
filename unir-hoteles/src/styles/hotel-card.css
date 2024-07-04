@@ -86,18 +86,21 @@ body {
     width: 50%;
     text-align: justify;
 }
-/*.info-container-2 {*/
-/*    display: flex;*/
-/*    flex-direction: row;*/
-/*    align-items: flex-start;*/
-/*}*/
+.info-container-2 {
+    text-align: end;
+}
 
+.availableRooms-warning{
+    color: red;
+    font-weight: 500;
+    margin-left: 15px;
+}
 .card-footer {
     display: flex;
-    justify-content: flex-end; /* Alinear los botones al final */
-    align-items: flex-end; /* Alinear los botones en la esquina inferior derecha */
-    margin-top: auto; /* Empujar el footer hacia la parte inferior */
-    margin-left: auto; /* Empujar el footer hacia la derecha */
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: auto;
+    margin-left: auto;
 }
 
 .card-footer button {
