@@ -25,25 +25,27 @@ export const HotelFavList = () => {
                     throw new Error('Error fetching favorites');
                 }
                 const favoriteIds = await response.text();
-                const favoriteIdsArray = favoriteIds.split(',').map(id => id.trim());
 
+                if (favoriteIds!=="") {
 
-                // const hotelPromises = favoriteIdsArray.map(id =>
-                //
-                //     fetch(`http://localhost:8762/ms-hotels/hotels/${id}`).then(res => res.json())
-                // );
+                    const favoriteIdsArray = favoriteIds.split(',').map(id => id.trim());
+                    const hotelPromises = favoriteIdsArray.map(id =>
+                        fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(requestBody)
+                        }).then(res => res.json())
+                    );
+                    const favoriteHotels = await Promise.all(hotelPromises);
+                    console.log(favoriteHotels);
+                    setFavoriteHotels(favoriteHotels);
+                    setFavoriteCount(favoriteHotels.length);
+                }
+                else{
+                    setFavoriteHotels([]);
+                    setFavoriteCount(0);
+                }
 
-                const hotelPromises = favoriteIdsArray.map(id =>
-                    fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
-                        method: "POST",
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(requestBody)
-                    }).then(res => res.json())
-                );
-                const favoriteHotels = await Promise.all(hotelPromises);
-                console.log(favoriteHotels);
-                setFavoriteHotels(favoriteHotels);
-                setFavoriteCount(favoriteHotels.length);
                 setLoading(false);  // Establecer loading a false después de cargar los hoteles
 
             } catch (error) {
@@ -56,7 +58,6 @@ export const HotelFavList = () => {
         }
 
     }, [usuario, setFavoriteHotels]);
-
     return (
         <div className="container">
             <div className="content" id="hotel-cards">

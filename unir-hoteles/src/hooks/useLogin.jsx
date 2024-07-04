@@ -73,7 +73,7 @@ const useLogin = () => {
                     coments: data.coments,
                     email: data.email
                 });
-                setFavoriteCount(data.favorites.split(',').length);
+                setFavoriteCount(data.favorites!=="" ? data.favorites.split(',').length: 0);
             }
             else if(response.status === 401) {
                 setError('Usuario o contraseña incorrectos');
