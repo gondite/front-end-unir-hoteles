@@ -124,7 +124,7 @@ export const Header = () => {
                         <li>
                             <a onClick={handleBookingsClick}>
                                 <i className="left material-icons">event_available</i>
-                                Reservas (<span className="favorite-counter">{usuario.bookings.length}</span>)
+                                Reservas (<span className="favorite-counter">{usuario.bookings && usuario.bookings.length}</span>)
                             </a>
                         </li>
                         <li>
