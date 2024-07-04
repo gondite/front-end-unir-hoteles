@@ -1,0 +1,30 @@
+.booking-container{
+    display: table;
+}
+
+.container-hotel-info{
+    display: table-cell;
+    width: 65%
+}
+
+.container-booking-info{
+    display: table-cell;
+    width: 35%;
+    height: 100%
+}
+
+.container-booking-info > h5{
+    margin-bottom: 50px
+}
+
+.booking-info{
+    margin-left: 30px;
+}
+
+.booking-footer{
+
+}
+
+.booking-footer > button{
+    margin-left: 10px;
+}
