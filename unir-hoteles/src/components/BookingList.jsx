@@ -57,7 +57,7 @@ export const BookingList = () => {
         <div className="container">
             <div className="content" id="booking-cards">
                 {loading ? (
-                    <p>Cargando hoteles favoritos...</p>
+                    <p>Cargando reservas...</p>
                 ) : bookings.length > 0 ? (
                     <>
                         {bookings.map((booking, index) => (
