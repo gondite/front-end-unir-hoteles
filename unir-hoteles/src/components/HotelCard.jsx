@@ -115,12 +115,6 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
                 <p className="hotel-description"><b>{address}</b> <br/>
                     {description}</p>
                 <div className="info-container-2">
-                    {maxOpinion && <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
-                    {searchQuery['trip-start'] && searchQuery['trip-end'] && (
-                        <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -
-                            Fecha de fin: {searchQuery['trip-end']}</p>
-                    )}
-                    {price !== 0 && <p><i className="material-icons">attach_money</i> Precio: {price} €</p>}
                     {contactMail && (
                         <p>
                             <i className="material-icons">email</i>
@@ -128,8 +122,14 @@ export const HotelCard = ({ index, images, title, address, description, stars, m
                         </p>
                     )}
                     {contactNumber && <p><i className="material-icons">phone</i> Teléfono: {contactNumber}</p>}
+                    {maxOpinion && <p><i className="material-icons">rate_review</i> Opiniones de usuarios: {maxOpinion}</p>}
+                    {/*{searchQuery['trip-start'] && searchQuery['trip-end'] && (*/}
+                    {/*    <p><i className="material-icons">date_range</i> Fecha de inicio: {searchQuery['trip-start']} -*/}
+                    {/*        Fecha de fin: {searchQuery['trip-end']}</p>*/}
+                    {/*)}*/}
+                    {price !== 0 && <p><i className="material-icons">attach_money</i> Precio: {price} €</p>}
 
-                {availableRooms !== 0 && availableRooms <=10 && <p className={"availableRooms-warning"}><i className="material-icons">hotel</i> Habitaciones disponibles: {availableRooms}</p>}
+                {availableRooms !== 0 && availableRooms <=11 && <p className={"availableRooms-warning"}><i className="material-icons">hotel</i> Habitaciones disponibles: {availableRooms}</p>}
                 </div>
             </div>
 
