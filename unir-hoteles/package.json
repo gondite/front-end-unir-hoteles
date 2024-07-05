@@ -1,29 +1,28 @@
 {
-  "name": "unir-hotels",
+  "name": "front-end-pizzas",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fontsource/roboto": "^5.0.13",
-    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/material": "^5.15.17",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/joy": "^5.0.0-beta.28",
+    "@mui/material": "^5.14.19",
+    "@stripe/react-stripe-js": "^2.5.0",
+    "@stripe/stripe-js": "^3.0.3",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "leaflet": "^1.9.4",
-    "materialize-css": "^1.0.0-rc.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "framer-motion": "^10.11.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
-    "react-router": "^6.23.0",
-    "react-router-dom": "^6.23.0",
+    "react-router-dom": "^6.10.0",
+    "react-spinner-material": "^1.4.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.12.1",
-    "web-vitals": "^2.1.4",
-    "react-scripts": "^5.0.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
