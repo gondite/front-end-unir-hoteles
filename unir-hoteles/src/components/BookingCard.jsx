@@ -109,7 +109,7 @@ export const BookingCard = ({index, booking, hotel}) => {
                     "targetMethod": "DELETE"
                 };
 
-                fetch(`http://localhost:8762/ms-bookings/bookings/${booking.id}`, {
+                fetch(process.env.REACT_APP_GW_URL + `/ms-bookings/bookings/${booking.id}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -156,7 +156,9 @@ export const BookingCard = ({index, booking, hotel}) => {
                             <button className="gallery-button next" onClick={handleNextClick}><i
                                 className="material-icons">arrow_forward</i></button>
                         </div>
-                        {hotel.latitude && hotel.longitude && <HotelMap markers={markers}/>}
+                        <div className="map-container-bookings">
+                            {hotel.latitude && hotel.longitude && <HotelMap markers={markers}/>}
+                        </div>
                         <div className="container-booking-info">
                             <h5>Información de la reserva</h5>
                             <div className="booking-info">

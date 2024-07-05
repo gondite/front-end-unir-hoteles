@@ -47,7 +47,7 @@ export const Header = () => {
                     "Content-Type": "application/json",
                 }
             };
-            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
+            const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/favorites`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody)
@@ -62,11 +62,11 @@ export const Header = () => {
 
             // const hotelPromises = favoriteIdsArray.map(id =>
             //
-            //     fetch(`http://localhost:8762/ms-hotels/hotels/${id}`).then(res => res.json())
+            //     fetch(process.env.REACT_APP_GW_URL + `/ms-hotels/hotels/${id}`).then(res => res.json())
             // );
 
             const hotelPromises = favoriteIdsArray.map(id =>
-                fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                fetch(process.env.REACT_APP_GW_URL + `/ms-hotels/hotels/${id}`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)

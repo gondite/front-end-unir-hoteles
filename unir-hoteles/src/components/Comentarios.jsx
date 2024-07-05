@@ -30,7 +30,7 @@ export const Comentarios = () => {
                 };
 
                 // Hacer la solicitud para obtener la información del hotel por su ID
-                const response = await fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-hotels/hotels/${id}`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
@@ -60,7 +60,7 @@ export const Comentarios = () => {
                 };
 
                 // Hacer la solicitud para obtener los comentarios del hotel por su ID
-                const response = await fetch(`http://localhost:8762/ms-users/hotels/${id}/comments`, {
+                const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/hotels/${id}/comments`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
@@ -110,8 +110,8 @@ export const Comentarios = () => {
                 }
             };
 
-            // const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/comments`, {
-            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/comments`, {
+            // const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/comments`, {
+            const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/comments`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody)

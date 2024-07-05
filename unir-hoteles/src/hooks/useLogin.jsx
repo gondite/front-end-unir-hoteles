@@ -26,7 +26,7 @@ const useLogin = () => {
             }
         };
 
-        const response = await fetch('http://localhost:8762/ms-bookings/bookings', {
+        const response = await fetch(process.env.REACT_APP_GW_URL + '/ms-bookings/bookings', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -53,7 +53,7 @@ const useLogin = () => {
                 }
             };
 
-            const response = await fetch('http://localhost:8762/ms-users/users/session', {
+            const response = await fetch(process.env.REACT_APP_GW_URL + '/ms-users/users/session', {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody)

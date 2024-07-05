@@ -17,7 +17,7 @@ export const BookingList = () => {
                         "userId": [usuario.id]
                     }
                 };
-                const response = await fetch(`http://localhost:8762/ms-bookings/bookings`, {
+                const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-bookings/bookings`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
@@ -29,7 +29,7 @@ export const BookingList = () => {
                 const bookings = await response.json();
                 const hotelIds = Array.from(new Set(bookings.map((booking) => booking.hotel)));
                 const hotelPromises = hotelIds.map(id =>
-                    fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                    fetch(process.env.REACT_APP_GW_URL + `/ms-hotels/hotels/${id}`, {
                         method: "POST",
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(requestBody)

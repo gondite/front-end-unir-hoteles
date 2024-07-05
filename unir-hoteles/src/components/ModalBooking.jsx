@@ -142,7 +142,7 @@ export const ModalBooking = ({hotelId, bookingId, startDate, endDate, contact, b
                     }
                 };
 
-                fetch("http://localhost:8762/ms-bookings/bookings", {
+                fetch(process.env.REACT_APP_GW_URL + "/ms-bookings/bookings", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -195,7 +195,7 @@ export const ModalBooking = ({hotelId, bookingId, startDate, endDate, contact, b
                     }
                 };
 
-                fetch(`http://localhost:8762/ms-bookings/bookings/${bookingId}`, {
+                fetch(process.env.REACT_APP_GW_URL + `/ms-bookings/bookings/${bookingId}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

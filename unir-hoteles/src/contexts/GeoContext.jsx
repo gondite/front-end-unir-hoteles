@@ -3,7 +3,7 @@ import React, {createContext, useState, useEffect} from 'react';
 const GeoContext = createContext();
 
 const GeoProvider = ({children}) => {
-    const url = "http://localhost:8762/ms-hotels/hotels?"
+    const url = process.env.REACT_APP_GW_URL + "/ms-hotels/hotels?"
     const [favoriteCount, setFavoriteCount] = useState(0);
     const [usuario, setUsuario] = useState(null);
     // const [newUser, registerUsuario] = useState(null);
@@ -119,7 +119,7 @@ const GeoProvider = ({children}) => {
             };
 
             // Hacer la llamada fetch a la API
-            const response = await fetch('http://localhost:8762/ms-users/users', {
+            const response = await fetch(process.env.REACT_APP_GW_URL + '/ms-users/users', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -152,9 +152,9 @@ const GeoProvider = ({children}) => {
         try {
             let url;
             if (method === "PUT") {
-                url = `http://localhost:8762/ms-users/users/${usuario.id}/favorites`;
+                url = process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/favorites`;
             } else if (method === "DELETE") {
-                url = `http://localhost:8762/ms-users/users/${usuario.id}/favorites/${hotelId}`;
+                url = process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/favorites/${hotelId}`;
             }
 
             const requestBody = {
@@ -195,7 +195,7 @@ const GeoProvider = ({children}) => {
                     "Content-Type": "application/json",
                 }
             };
-            const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
+            const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/favorites`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody)

@@ -15,7 +15,7 @@ export const HotelFavList = () => {
                         "Content-Type": "application/json",
                     }
                 };
-                const response = await fetch(`http://localhost:8762/ms-users/users/${usuario.id}/favorites`, {
+                const response = await fetch(process.env.REACT_APP_GW_URL + `/ms-users/users/${usuario.id}/favorites`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
@@ -30,7 +30,7 @@ export const HotelFavList = () => {
 
                     const favoriteIdsArray = favoriteIds.split(',').map(id => id.trim());
                     const hotelPromises = favoriteIdsArray.map(id =>
-                        fetch(`http://localhost:8762/ms-hotels/hotels/${id}`, {
+                        fetch(process.env.REACT_APP_GW_URL + `/ms-hotels/hotels/${id}`, {
                             method: "POST",
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(requestBody)
